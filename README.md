@@ -21,6 +21,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Configure the chrome version in `pree2e` see [issue](https://github.com/angular/angular-cli/issues/4640)
 
 ## Further help
 
