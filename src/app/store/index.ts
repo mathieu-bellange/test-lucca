@@ -1,4 +1,4 @@
-import { AppEffects } from './app.effects';
+import * as ExpensesStore from './expenses';
 import { reducers, metaReducers } from './reducers';
 
-export { AppEffects, reducers, metaReducers };
+export { ExpensesStore, reducers, metaReducers };
