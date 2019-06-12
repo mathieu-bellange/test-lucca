@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './app.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ExpensesModule } from './expenses/expenses.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([AppEffects]),
     StoreRouterConnectingModule.forRoot(),
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    ExpensesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
