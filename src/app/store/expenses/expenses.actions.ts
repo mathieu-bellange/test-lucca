@@ -9,7 +9,7 @@ export const loadExpenseItems = createAction(
 /**
  * action trigger when Expense Items load successfully
  */
-export const expenseItemsLoaded = createAction(
+export const loadExpenseItemsSuccessful = createAction(
   '[Expenses API] Expense Items Loaded Success',
   props<{ payload: object }>()
 );

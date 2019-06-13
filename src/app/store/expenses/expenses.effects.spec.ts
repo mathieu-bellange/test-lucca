@@ -44,7 +44,7 @@ describe('AppEffects', () => {
     actions.next(Actions.loadExpenseItems());
     expensesServiceSpy.getAll.and.returnValue(of(stubItems));
     effects.loadExpenseItems$.subscribe(result => {
-      expect(result).toEqual(Actions.expenseItemsLoaded({ payload: stubItems}));
+      expect(result).toEqual(Actions.loadExpenseItemsSuccessful({ payload: stubItems}));
     });
   });
 });

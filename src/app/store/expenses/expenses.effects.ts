@@ -21,7 +21,7 @@ export class ExpensesEffects {
     ofType(ExpensesActions.loadExpenseItems),
     mergeMap(() => this.expensesService.getAll()
       .pipe(
-        map(expenseItems => ({ type: ExpensesActions.expenseItemsLoaded.type, payload: expenseItems })),
+        map(expenseItems => ({ type: ExpensesActions.loadExpenseItemsSuccessful.type, payload: expenseItems })),
         catchError(() => EMPTY)
       ))
     )
