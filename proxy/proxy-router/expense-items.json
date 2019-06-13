@@ -13,4 +13,36 @@
   "comment": "Mission de 5 jours à Londres",
   "createdAt": "2018-12-05T14:00:34.435154Z",
   "lastModifiedAt": "2018-12-05T14:00:34.435154Z"
+},
+{
+  "id": "727212a0-4d73-4615-bd23-d7df6f562492",
+  "purchasedOn": "2018-12-03",
+  "nature": "Voiture",
+  "originalAmount": {
+    "amount": 170.0,
+    "currency": "GBP"
+  },
+  "convertedAmount": {
+    "amount": 190.81,
+    "currency": "EUR"
+  },
+  "comment": "Mission de 5 jours à Londres",
+  "createdAt": "2018-12-05T14:05:34.435154Z",
+  "lastModifiedAt": "2018-12-05T14:05:34.435154Z"
+},
+{
+  "id": "727212a0-4d73-4615-bd23-d7df6f562493",
+  "purchasedOn": "2018-11-30",
+  "nature": "Avion",
+  "originalAmount": {
+    "amount": 1500.0,
+    "currency": "EUR"
+  },
+  "convertedAmount": {
+    "amount": 1500.0,
+    "currency": "EUR"
+  },
+  "comment": "Mission de 5 jours à Londres",
+  "createdAt": "2018-12-05T14:08:34.435154Z",
+  "lastModifiedAt": "2018-12-05T14:08:34.435154Z"
 }]
