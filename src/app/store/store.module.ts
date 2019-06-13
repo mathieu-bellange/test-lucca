@@ -3,22 +3,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import * as ExpensesStore from './expenses';
+import { ExpensesModule } from './expenses/expenses.module';
 
 /**
  * Root NgModule of the Store
- * Declare all effects and reducers here
+ * Assemble all feature store module
  */
 @NgModule({
   imports: [
     HttpClientModule,
-    StoreModule.forRoot({
-      expenses: ExpensesStore.reducer
-    }),
-    EffectsModule.forRoot([ExpensesStore.effects]),
-  ],
-  providers: [
-    ExpensesStore.service
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    ExpensesModule
   ]
 })
 export class AppStoreModule { }

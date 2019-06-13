@@ -16,10 +16,12 @@ import { ExpensesStore } from '../../store';
 })
 export class ExpensesDashboardComponent implements OnInit {
   displayedColumns: string[] = ['purchasedOn', 'nature', 'amount'];
+  // TODO Use a selector from ngrx
   dataSource$: Observable<Array<ExpensesStore.ExpenseItem>> = this.store.pipe(
     select(state => state.expenses.expenseItems),
   );
 
+  // FIXME change Type of the Store to Type more simple
   constructor(private store: Store<{ expenses: { expenseItems: Array<ExpensesStore.ExpenseItem>}}>) { }
 
   ngOnInit() {
