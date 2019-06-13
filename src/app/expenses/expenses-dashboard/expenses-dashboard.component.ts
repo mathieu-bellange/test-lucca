@@ -10,7 +10,7 @@ import { ExpensesStore } from '../../store';
   styleUrls: ['./expenses-dashboard.component.styl']
 })
 export class ExpensesDashboardComponent implements OnInit {
-  displayedColumns: string[] = ['purchasedOn', 'nature', 'amount', 'currency'];
+  displayedColumns: string[] = ['purchasedOn', 'nature', 'amount'];
   dataSource$: Observable<Array<ExpensesStore.ExpenseItem>> = this.store.pipe(
     select(state => state.expenses.expenseItems),
   );
