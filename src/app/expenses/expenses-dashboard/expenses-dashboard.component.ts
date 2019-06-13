@@ -4,6 +4,11 @@ import { Observable } from 'rxjs';
 
 import { ExpensesStore } from '../../store';
 
+/**
+ * Expense Items Dashboard Component
+ * Dispatch a store action to update ExpenseItems state in the store on init
+ * Display all ExpenseItems in an Angular Material Table on store state update
+ */
 @Component({
   selector: 'app-expenses-dashboard',
   templateUrl: './expenses-dashboard.component.html',

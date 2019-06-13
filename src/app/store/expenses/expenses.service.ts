@@ -5,6 +5,10 @@ import { HttpClient } from '@angular/common/http';
 export class ExpensesService {
   constructor(private http: HttpClient) { }
 
+  /**
+   * Request all ExpenseItems
+   * @return Observable<[ExpenseItem]>
+   */
   getAll() {
     return this.http.get('/api/expenseItems');
   }

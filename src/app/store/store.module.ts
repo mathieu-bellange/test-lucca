@@ -5,6 +5,10 @@ import { EffectsModule } from '@ngrx/effects';
 
 import * as ExpensesStore from './expenses';
 
+/**
+ * Root NgModule of the Store
+ * Declare all effects and reducers here
+ */
 @NgModule({
   imports: [
     HttpClientModule,
