@@ -1,9 +1,10 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import * as ExpensesActions from './expenses.actions';
+import { ExpenseItem } from './expenseItem.entity';
 
 export interface State {
-  expenseItems: array;
+  expenseItems: Array<ExpenseItem>;
 }
 
 export const initialState: State = {

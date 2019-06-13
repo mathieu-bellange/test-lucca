@@ -9,7 +9,7 @@ import * as ExpensesStore from './expenses';
   imports: [
     HttpClientModule,
     StoreModule.forRoot({
-      expenseItems: ExpensesStore.reducer
+      expenses: ExpensesStore.reducer
     }),
     EffectsModule.forRoot([ExpensesStore.effects]),
   ],
