@@ -18,6 +18,6 @@ export class ExpensesDashboardComponent implements OnInit {
   constructor(private store: Store<{ expenses: { expenseItems: Array<ExpensesStore.ExpenseItem>}}>) { }
 
   ngOnInit() {
-    this.store.dispatch(ExpensesStore.ExpensesActions.loadExpenseItems());
+    this.store.dispatch(ExpensesStore.actions.loadExpenseItems());
   }
 }
