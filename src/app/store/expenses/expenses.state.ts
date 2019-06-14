@@ -1,4 +1,4 @@
-import { ExpenseItem } from './expenseItem.entity';
+import { ExpenseItem } from './model';
 
 export interface State {
   expenseItems: Array<ExpenseItem>;

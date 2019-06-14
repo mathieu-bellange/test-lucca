@@ -1,4 +1,4 @@
-import { ExpenseItem } from './expenseItem.entity';
+import { ExpenseItem } from './model';
 import * as actions from './expenses.actions';
 import * as selectors from './expenses.selectors';
 import { reducer } from './expenses.reducers';
