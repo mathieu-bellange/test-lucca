@@ -12,4 +12,13 @@ export class ExpensesService {
   getAll() {
     return this.http.get('/api/expenseItems');
   }
+
+  /**
+   * Request an expenseItem by id
+   * @param  id id of the expenseItem
+   * @return    ExpenseItem
+   */
+  get(id: string) {
+    return this.http.get(`/api/expenseItems/${id}`);
+  }
 }

@@ -7,13 +7,13 @@ import { ExpensesService } from './expenses.service';
 import * as Actions from './expenses.actions';
 import { ExpenseItem, Currency } from './model';
 
-describe('AppEffects', () => {
+describe('ExpensesEffects', () => {
   let actions: ReplaySubject<any>;
   let effects: ExpensesEffects;
   let expensesServiceSpy: jasmine.SpyObj<ExpensesService>;
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('ExpensesService', ['getAll']);
+    const spy = jasmine.createSpyObj('ExpensesService', ['getAll', 'get']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -48,6 +48,26 @@ describe('AppEffects', () => {
     expensesServiceSpy.getAll.and.returnValue(of(stubItems));
     effects.loadExpenseItems$.subscribe(result => {
       expect(result).toEqual(Actions.loadExpenseItemsSuccessful({ payload: stubItems}));
+    });
+  });
+
+  it('should get expense item from ExpensesService on loadExpenseItemById action', () => {
+    const id = '727212a0-4d73-4615-bd23-d7df6f562491';
+    const stubItem: ExpenseItem = {
+      id,
+      purchasedOn: '2018-12-04',
+      nature: 'Restaurant',
+      comment: 'test',
+      originalAmount: {
+        amount: 17.0,
+        currency: Currency.GBP
+      }
+    };
+    actions = new ReplaySubject(1);
+    actions.next(Actions.loadExpenseItemById({ id }));
+    expensesServiceSpy.get.and.returnValue(of(stubItem));
+    effects.loadExpenseItemById$.subscribe(result => {
+      expect(result).toEqual(Actions.loadExpenseItemByIdSuccessful({ payload: stubItem}));
     });
   });
 });

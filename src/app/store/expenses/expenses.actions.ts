@@ -15,3 +15,17 @@ export const loadExpenseItemsSuccessful = createAction(
   '[Expenses API] Expense Items Loaded Success',
   props<{ payload: ExpenseItem[] }>()
 );
+/**
+ * action to trigger Expense Item load by id
+ */
+export const loadExpenseItemById = createAction(
+  '[Expenses Page] Load expense item by id',
+  props<{ id: string }>()
+);
+/**
+ * action trigger when Expense Item load by id successfully
+ */
+export const loadExpenseItemByIdSuccessful = createAction(
+  '[Expenses API] Expense Item by id Loaded Success',
+  props<{ payload: ExpenseItem }>()
+);
