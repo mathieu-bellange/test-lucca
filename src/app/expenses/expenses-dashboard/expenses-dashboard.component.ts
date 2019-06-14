@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { ExpensesStore } from '../../store';
+import { ExpensesStore, AppState } from '../../store';
 
 /**
  * Expense Items Dashboard Component
@@ -16,13 +16,11 @@ import { ExpensesStore } from '../../store';
 })
 export class ExpensesDashboardComponent implements OnInit {
   displayedColumns: string[] = ['purchasedOn', 'nature', 'amount'];
-  // TODO Use a selector from ngrx
   dataSource$: Observable<Array<ExpensesStore.ExpenseItem>> = this.store.pipe(
-    select(state => state.expenses.expenseItems),
+    select(ExpensesStore.selectors.selectExpenseItems)
   );
 
-  // FIXME change Type of the Store to Type more simple
-  constructor(private store: Store<{ expenses: { expenseItems: Array<ExpensesStore.ExpenseItem>}}>) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
     this.store.dispatch(ExpensesStore.actions.loadExpenseItems());
