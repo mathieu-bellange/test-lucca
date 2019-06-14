@@ -49,7 +49,7 @@ describe('ExpensesDashboardComponent', () => {
         currency: 'GBP'
       }
     }];
-    const action = ExpensesStore.actions.expenseItemsLoaded({ payload: items});
+    const action = ExpensesStore.actions.loadExpenseItemsSuccessful({ payload: items});
     store.dispatch(action);
     component.dataSource$.subscribe(data => {
       expect(data.length).toBe(items.length);
