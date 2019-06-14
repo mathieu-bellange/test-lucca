@@ -40,15 +40,17 @@ describe('ExpensesDashboardComponent', () => {
   });
 
   it('should display a list of items after the data is loaded', () => {
-    const items = [{
+    const item: ExpensesStore.ExpenseItem = {
       id: '727212a0-4d73-4615-bd23-d7df6f562491',
       purchasedOn: '2018-12-04',
       nature: 'Restaurant',
+      comment: 'comment',
       originalAmount: {
         amount: 17.0,
-        currency: 'GBP'
+        currency: ExpensesStore.Currency.GBP
       }
-    }];
+    };
+    const items = [item];
     const action = ExpensesStore.actions.loadExpenseItemsSuccessful({ payload: items});
     store.dispatch(action);
     component.dataSource$.subscribe(data => {

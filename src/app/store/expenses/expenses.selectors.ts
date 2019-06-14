@@ -7,5 +7,5 @@ export const selectExpenses = (state: AppState) => state.expenses;
 
 export const selectExpenseItems = createSelector(
   selectExpenses,
-  (state: State) => state.expenseItems
+  (state: State) => state.entities
 );

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ExpensesStore, AppState } from '../../store';
 
@@ -17,7 +18,8 @@ import { ExpensesStore, AppState } from '../../store';
 export class ExpensesDashboardComponent implements OnInit {
   displayedColumns: string[] = ['purchasedOn', 'nature', 'amount'];
   dataSource$: Observable<Array<ExpensesStore.ExpenseItem>> = this.store.pipe(
-    select(ExpensesStore.selectors.selectExpenseItems)
+    select(ExpensesStore.selectors.selectExpenseItems),
+    map(entity => Object.values(entity))
   );
 
   constructor(private store: Store<AppState>) { }

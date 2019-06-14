@@ -2,7 +2,7 @@ import { Amount } from './amount.entity';
 
 export interface ExpenseItem {
   id: string;
-  purchasedOn: Date;
+  purchasedOn: string;
   nature: string;
   comment: string;
   originalAmount: Amount;

@@ -1,5 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
+import { ExpenseItem } from './model';
+
 /**
  * action to trigger Expense Items load
  */
@@ -11,5 +13,5 @@ export const loadExpenseItems = createAction(
  */
 export const loadExpenseItemsSuccessful = createAction(
   '[Expenses API] Expense Items Loaded Success',
-  props<{ payload: object }>()
+  props<{ payload: ExpenseItem[] }>()
 );

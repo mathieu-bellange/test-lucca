@@ -1,9 +1,11 @@
 import { ExpenseItem } from './model';
 
 export interface State {
-  expenseItems: Array<ExpenseItem>;
+  ids: string[];
+  entities: { [id: string]: ExpenseItem};
 }
 
 export const initialState: State = {
-  expenseItems: []
+  ids: [],
+  entities: {}
 };
