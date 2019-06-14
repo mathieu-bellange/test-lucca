@@ -17,6 +17,12 @@ const expensesReducer = createReducer(
       newState.entities[expenseItem.id] = expenseItem;
     });
     return newState;
+  }),
+  on(ExpensesActions.loadExpenseItemByIdSuccessful, (state, action) => {
+    return {
+      ids: [...state.ids],
+      entities: {...state.entities, [action.payload.id]: action.payload }
+    };
   })
 );
 
