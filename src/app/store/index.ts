@@ -1,7 +1,8 @@
 import * as ExpensesStore from './expenses';
+import { State as ExpensesState} from './expenses/expenses.state';
 
 export interface AppState {
-  expenses: ExpensesStore.State;
+  expenses: ExpensesState;
 }
 
 export { ExpensesStore };
