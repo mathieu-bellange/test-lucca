@@ -14,11 +14,11 @@ import { ExpensesModule } from './expenses/expenses.module';
   ],
   imports: [
     BrowserModule,
-    AppStoreModule,
-    AppRoutingModule,
-    StoreRouterConnectingModule.forRoot(),
     NoopAnimationsModule,
-    ExpensesModule
+    AppStoreModule,
+    ExpensesModule,
+    StoreRouterConnectingModule.forRoot(),
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

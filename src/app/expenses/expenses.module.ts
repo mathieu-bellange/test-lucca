@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material';
 
 import { ExpensesDashboardComponent } from './expenses-dashboard';
+import { ExpenseDetailComponent } from './expense-detail';
 import { ExpensesRoutingModule } from './expenses-routing.module';
 
 @NgModule({
@@ -11,6 +12,9 @@ import { ExpensesRoutingModule } from './expenses-routing.module';
     ExpensesRoutingModule,
     MatTableModule
   ],
-  declarations: [ExpensesDashboardComponent]
+  declarations: [
+    ExpensesDashboardComponent,
+    ExpenseDetailComponent
+  ]
 })
 export class ExpensesModule { }
