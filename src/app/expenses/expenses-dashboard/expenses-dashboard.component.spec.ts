@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material';
 import { StoreModule, Store } from '@ngrx/store';
 
@@ -17,7 +18,8 @@ describe('ExpensesDashboardComponent', () => {
           expenses: ExpensesStore.reducer
         }),
         RouterTestingModule,
-        MatTableModule
+        MatTableModule,
+        NoopAnimationsModule
       ],
       declarations: [
         ExpensesDashboardComponent

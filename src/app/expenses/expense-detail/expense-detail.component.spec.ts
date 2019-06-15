@@ -1,13 +1,14 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule, Store } from '@ngrx/store';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule, MatInputModule, MatDatepickerModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { ExpenseDetailComponent } from './expense-detail.component';
 import { ExpensesStore } from '../../store';
 
-describe('ExpensesDashboardComponent', () => {
+describe('ExpensesDetailComponent', () => {
   let component: ExpenseDetailComponent;
   let fixture: ComponentFixture<ExpenseDetailComponent>;
   let store: Store<ExpensesStore.State>;
@@ -17,6 +18,7 @@ describe('ExpensesDashboardComponent', () => {
         StoreModule.forRoot({
           expenses: ExpensesStore.reducer
         }),
+        NoopAnimationsModule,
         RouterTestingModule,
         MatFormFieldModule,
         MatInputModule,
