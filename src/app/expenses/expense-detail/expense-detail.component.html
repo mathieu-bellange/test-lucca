@@ -1,1 +1,19 @@
-<h1>Ecran du détail !</h1>
+<div class="expenses-detail">
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Nature">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Montant">
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="Commentaire"></textarea>
+  </mat-form-field>
+</div>

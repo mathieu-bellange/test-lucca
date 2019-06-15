@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule, Store } from '@ngrx/store';
+import { MatFormFieldModule, MatInputModule, MatDatepickerModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { ExpenseDetailComponent } from './expense-detail.component';
 import { ExpensesStore } from '../../store';
@@ -15,7 +17,11 @@ describe('ExpensesDashboardComponent', () => {
         StoreModule.forRoot({
           expenses: ExpensesStore.reducer
         }),
-        RouterTestingModule
+        RouterTestingModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatMomentDateModule
       ],
       declarations: [
         ExpenseDetailComponent
@@ -27,7 +33,6 @@ describe('ExpensesDashboardComponent', () => {
     component = fixture.debugElement.componentInstance;
     fixture.detectChanges();
   }));
-
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });

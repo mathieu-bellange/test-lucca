@@ -23,7 +23,9 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowSelected(row, $event)"></tr>
     </table>
-    <router-outlet></router-outlet>
+    <div [@slideInOutAnimation]="routerOutlet.isActivated ? routerOutlet.activatedRoute : ''">
+      <router-outlet #routerOutlet="outlet"></router-outlet>
+    </div>
 </div>
