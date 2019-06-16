@@ -3,13 +3,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule, MatInputModule, MatDatepickerModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { ReactiveFormsModule } from '@angular/forms';
 import * as moment from 'moment';
 
 import { ExpenseDetailComponent } from './expense-detail.component';
 import { ExpensesStore, AppState } from '../../store';
+import { EnumToArrayPipe } from '../expenses.pipes';
 
 describe('ExpensesDetailComponent', () => {
   let component: ExpenseDetailComponent;
@@ -18,7 +19,7 @@ describe('ExpensesDetailComponent', () => {
   const expenseItemStub = new ExpensesStore.ExpenseItem({
     nature: 'test Nature',
     comment: 'test comment',
-    originalAmount: new ExpensesStore.Amount({ amount: 5 }),
+    originalAmount: new ExpensesStore.Amount({ amount: 5, currency: ExpensesStore.Currency.EUR }),
     purchasedOn: moment()
   });
   beforeEach(async(() => {
@@ -30,6 +31,7 @@ describe('ExpensesDetailComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatDatepickerModule,
+        MatSelectModule,
         MatMomentDateModule
       ],
       providers: [
@@ -41,7 +43,8 @@ describe('ExpensesDetailComponent', () => {
         })
       ],
       declarations: [
-        ExpenseDetailComponent
+        ExpenseDetailComponent,
+        EnumToArrayPipe
       ],
     }).compileComponents();
     store = TestBed.get(Store);
@@ -66,7 +69,8 @@ describe('ExpensesDetailComponent', () => {
       purchasedOn: expenseItemStub.purchasedOn,
       nature: expenseItemStub.nature,
       amount: expenseItemStub.originalAmount.amount,
-      comment: expenseItemStub.comment
+      comment: expenseItemStub.comment,
+      currency: expenseItemStub.originalAmount.currency
     });
   });
 });

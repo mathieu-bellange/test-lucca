@@ -28,14 +28,16 @@ export const MY_FORMATS = {
   styleUrls: ['./expense-detail.component.styl'],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
-  ],
+  ]
 })
 export class ExpenseDetailComponent implements OnInit, OnDestroy {
+  currencies = ExpensesStore.Currency;
   expenseDetailForm = this.fb.group({
     purchasedOn: moment(),
     nature: '',
     amount: '',
-    comment: ''
+    comment: '',
+    currency: ExpensesStore.Currency.EUR
   });
   expenseItem$: Observable<ExpensesStore.ExpenseItem> = this.store.pipe(
     select(ExpensesStore.selectors.selectExpenseItemById),
@@ -51,7 +53,8 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
         purchasedOn: expenseItem.purchasedOn || moment(),
         nature: expenseItem.nature || '',
         amount: expenseItem.originalAmount.amount || '',
-        comment: expenseItem.comment || ''
+        comment: expenseItem.comment || '',
+        currency: expenseItem.originalAmount.currency || ExpensesStore.Currency.EUR
       });
     });
   }

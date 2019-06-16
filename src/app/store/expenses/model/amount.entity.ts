@@ -7,6 +7,6 @@ export class Amount implements Amount {
   constructor(payload?: any) {
     if (!payload) return;
     this.amount = payload.amount;
-    this.currency = payload.currency;
+    this.currency = Currency[payload.currency] as Currency;
   }
 }

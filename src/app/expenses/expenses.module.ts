@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MatTableModule, MatDatepickerModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatTableModule, MatDatepickerModule, MatSelectModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { ExpensesDashboardComponent } from './expenses-dashboard';
 import { ExpenseDetailComponent } from './expense-detail';
 import { ExpensesRoutingModule } from './expenses-routing.module';
+import { EnumToArrayPipe } from './expenses.pipes';
 
 @NgModule({
   imports: [
@@ -19,11 +20,13 @@ import { ExpensesRoutingModule } from './expenses-routing.module';
     MatInputModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatSelectModule,
     ReactiveFormsModule
   ],
   declarations: [
     ExpensesDashboardComponent,
-    ExpenseDetailComponent
+    ExpenseDetailComponent,
+    EnumToArrayPipe
   ]
 })
 export class ExpensesModule { }
