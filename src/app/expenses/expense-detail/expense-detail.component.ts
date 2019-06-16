@@ -3,23 +3,39 @@ import { FormBuilder } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import * as moment from 'moment';
 
 import { ExpensesStore, AppState } from '../../store';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 /**
  * Expense Item Detail Component
  */
 @Component({
   selector: 'app-expense-detail',
   templateUrl: './expense-detail.component.html',
-  styleUrls: ['./expense-detail.component.styl']
+  styleUrls: ['./expense-detail.component.styl'],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ],
 })
 export class ExpenseDetailComponent implements OnInit, OnDestroy {
   expenseDetailForm = this.fb.group({
-    date: [''],
-    nature: [''],
-    amount: [''],
-    comment: ['']
+    purchasedOn: moment(),
+    nature: '',
+    amount: '',
+    comment: ''
   });
   expenseItem$: Observable<ExpensesStore.ExpenseItem> = this.store.pipe(
     select(ExpensesStore.selectors.selectExpenseItemById),
@@ -32,15 +48,19 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.expenseItemSub = this.expenseItem$.subscribe(expenseItem => {
       this.expenseDetailForm.setValue({
-        date: [expenseItem.purchasedOn],
-        nature: [expenseItem.nature],
-        amount: [expenseItem.originalAmount.amount],
-        comment: [expenseItem.comment]
+        purchasedOn: expenseItem.purchasedOn || moment(),
+        nature: expenseItem.nature || '',
+        amount: expenseItem.originalAmount.amount || '',
+        comment: expenseItem.comment || ''
       });
     });
   }
 
   ngOnDestroy() {
-    this.expenseItemSub.unsubscribe();
+    if (this.expenseItemSub) this.expenseItemSub.unsubscribe();
+  }
+
+  onSubmit() {
+    console.log(this.expenseDetailForm.value);
   }
 }

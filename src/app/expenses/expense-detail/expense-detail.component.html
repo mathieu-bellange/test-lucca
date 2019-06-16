@@ -1,7 +1,7 @@
 <div class="expenses-detail">
-  <form [formGroup]="expenseDetailForm">
+  <form [formGroup]="expenseDetailForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
-      <input matInput formControlName="date" [matDatepicker]="picker" placeholder="Choose a date">
+      <input matInput formControlName="purchasedOn" [matDatepicker]="picker" placeholder="Choose a date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -17,5 +17,6 @@
     <mat-form-field>
       <textarea matInput placeholder="Commentaire" formControlName="comment"></textarea>
     </mat-form-field>
+    <button type="submit" [disabled]="!expenseDetailForm.valid || !expenseDetailForm.dirty">Submit</button>
   </form>
 </div>

@@ -32,7 +32,7 @@ describe('ExpensesEffects', () => {
   });
 
   it('should get all expense item from ExpensesService on loadExpenseItems action', () => {
-    const stubItem: ExpenseItem = {
+    const stubItem = {
       id: '727212a0-4d73-4615-bd23-d7df6f562491',
       purchasedOn: '2018-12-04',
       nature: 'Restaurant',
@@ -53,7 +53,7 @@ describe('ExpensesEffects', () => {
 
   it('should get expense item from ExpensesService on loadExpenseItemById action', () => {
     const id = '727212a0-4d73-4615-bd23-d7df6f562491';
-    const stubItem: ExpenseItem = {
+    const stubItem = {
       id,
       purchasedOn: '2018-12-04',
       nature: 'Restaurant',

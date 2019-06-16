@@ -42,7 +42,7 @@ describe('ExpensesDashboardComponent', () => {
   });
 
   it('should display a list of items after the data is loaded', () => {
-    const item: ExpensesStore.ExpenseItem = {
+    const item = {
       id: '727212a0-4d73-4615-bd23-d7df6f562491',
       purchasedOn: '2018-12-04',
       nature: 'Restaurant',
