@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 
 import { State } from './expenses.state';
 import { AppState } from '../index';
-import { ExpenseItem } from './model';
+import { selectRouteParams } from '../router.selectors';
 
 export const selectExpenses = (state: AppState) => state.expenses;
 
@@ -13,5 +13,6 @@ export const selectExpenseItems = createSelector(
 
 export const selectExpenseItemById = createSelector(
   selectExpenseItems,
-  (entities: { [id: string]: ExpenseItem }, id: string) => entities[id]
+  selectRouteParams,
+  (entities, params) => entities[params.id]
 );
