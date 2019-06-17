@@ -30,31 +30,60 @@ describe('Expenses reducer', () => {
     const state = reducer(initialState, action);
     expect(state).toEqual(expectedState);
   });
-  it('should return the new state on action loadExpenseItemByIdSuccessful', () => {
-    const stubItem: ExpenseItem = new ExpenseItem({
-      id: '727212a0-4d73-4615-bd23-d7df6f562491',
-      purchasedOn: '2018-12-04',
-      nature: 'Restaurant',
-      comment: 'test',
-      originalAmount: {
-        amount: 17.0,
-        currency: Currency.GBP
-      }
+  describe('Expense Item reducer', () => {
+    it('should return the new state on action loadExpenseItemByIdSuccessful', () => {
+      const stubItem: ExpenseItem = new ExpenseItem({
+        id: '727212a0-4d73-4615-bd23-d7df6f562491',
+        purchasedOn: '2018-12-04',
+        nature: 'Restaurant',
+        comment: 'test',
+        originalAmount: {
+          amount: 17.0,
+          currency: Currency.GBP
+        }
+      });
+      const stubItemRemote = {
+        id: '727212a0-4d73-4615-bd23-d7df6f562491',
+        purchasedOn: '2018-12-04',
+        nature: 'Restaurant',
+        comment: 'test 2',
+        originalAmount: {
+          amount: 17.0,
+          currency: Currency.GBP
+        }
+      };
+      const initialState: State = { ids: [stubItem.id], entities: { [stubItem.id]: stubItem }};
+      const expectedState: State = { ids: [stubItem.id], entities: { [stubItem.id]: new ExpenseItem(stubItemRemote) }};
+      const action = actions.loadExpenseItemByIdSuccessful({ payload: stubItemRemote });
+      const state = reducer(initialState, action);
+      expect(state).toEqual(expectedState);
     });
-    const stubItemRemote = {
-      id: '727212a0-4d73-4615-bd23-d7df6f562491',
-      purchasedOn: '2018-12-04',
-      nature: 'Restaurant',
-      comment: 'test 2',
-      originalAmount: {
-        amount: 17.0,
-        currency: Currency.GBP
-      }
-    };
-    const initialState: State = { ids: [stubItem.id], entities: { [stubItem.id]: stubItem }};
-    const expectedState: State = { ids: [stubItem.id], entities: { [stubItem.id]: new ExpenseItem(stubItemRemote) }};
-    const action = actions.loadExpenseItemByIdSuccessful({ payload: stubItemRemote });
-    const state = reducer(initialState, action);
-    expect(state).toEqual(expectedState);
+    it('should return the new state on action updateExpenseItemSuccessful', () => {
+      const stubItem: ExpenseItem = new ExpenseItem({
+        id: '727212a0-4d73-4615-bd23-d7df6f562491',
+        purchasedOn: '2018-12-04',
+        nature: 'Restaurant',
+        comment: 'test',
+        originalAmount: {
+          amount: 17.0,
+          currency: Currency.GBP
+        }
+      });
+      const stubItemRemote = {
+        id: '727212a0-4d73-4615-bd23-d7df6f562491',
+        purchasedOn: '2018-12-04',
+        nature: 'Restaurant',
+        comment: 'test 2',
+        originalAmount: {
+          amount: 17.0,
+          currency: Currency.GBP
+        }
+      };
+      const initialState: State = { ids: [stubItem.id], entities: { [stubItem.id]: stubItem }};
+      const expectedState: State = { ids: [stubItem.id], entities: { [stubItem.id]: new ExpenseItem(stubItemRemote) }};
+      const action = actions.updateExpenseItemSuccessful({ payload: stubItemRemote });
+      const state = reducer(initialState, action);
+      expect(state).toEqual(expectedState);
+    });
   });
 });

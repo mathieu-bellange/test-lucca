@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,6 +17,7 @@ describe('ExpensesDetailComponent', () => {
   let component: ExpenseDetailComponent;
   let fixture: ComponentFixture<ExpenseDetailComponent>;
   let store: MockStore<AppState>;
+  let router: Router;
   const expenseItemStub = new ExpensesStore.ExpenseItem({
     nature: 'test Nature',
     comment: 'test comment',
@@ -48,6 +50,7 @@ describe('ExpensesDetailComponent', () => {
       ],
     }).compileComponents();
     store = TestBed.get(Store);
+    router = TestBed.get(Router);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(ExpenseDetailComponent);
     component = fixture.debugElement.componentInstance;
@@ -74,5 +77,23 @@ describe('ExpensesDetailComponent', () => {
       },
       comment: expenseItemStub.comment
     });
+  });
+
+  it('should dispatch an action to update data onSubmit', () => {
+    const action = ExpensesStore.actions.updateExpenseItem({ payload: component.expenseDetailForm.value });
+    component.onSubmit();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should reset form on cancel', () => {
+    spyOn(component.expenseDetailForm, 'reset').and.callThrough();
+    component.onBack();
+    expect(component.expenseDetailForm.reset).toHaveBeenCalled();
+  });
+
+  it('should navigate to dashboard on cancel', () => {
+    spyOn(router, 'navigate');
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['../'], jasmine.anything());
   });
 });
