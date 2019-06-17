@@ -24,6 +24,18 @@ export class ExpensesEffects {
         map(expenseItems => ({ type: ExpensesActions.loadExpenseItemsSuccessful.type, payload: expenseItems })),
         catchError(() => EMPTY)
       ))
-    )
-  );
+    ));
+
+  /**
+   * effect responsible of the loading of an expenseItem by id
+   * when ExpensesActions.loadExpenseItemById is dispatch
+   */
+  loadExpenseItemById$ = createEffect(() => this.actions$.pipe(
+    ofType(ExpensesActions.loadExpenseItemById),
+    mergeMap(action => this.expensesService.get(action.id)
+      .pipe(
+        map(expenseItems => ({ type: ExpensesActions.loadExpenseItemByIdSuccessful.type, payload: expenseItems })),
+        catchError(() => EMPTY)
+      ))
+    ));
 }

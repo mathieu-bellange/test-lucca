@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,10 +14,9 @@ import { ExpensesModule } from './expenses/expenses.module';
   imports: [
     BrowserModule,
     AppStoreModule,
-    AppRoutingModule,
+    ExpensesModule,
     StoreRouterConnectingModule.forRoot(),
-    NoopAnimationsModule,
-    ExpensesModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

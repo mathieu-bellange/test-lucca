@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material';
 import { StoreModule, Store } from '@ngrx/store';
 
@@ -17,7 +18,8 @@ describe('ExpensesDashboardComponent', () => {
           expenses: ExpensesStore.reducer
         }),
         RouterTestingModule,
-        MatTableModule
+        MatTableModule,
+        NoopAnimationsModule
       ],
       declarations: [
         ExpensesDashboardComponent
@@ -40,7 +42,7 @@ describe('ExpensesDashboardComponent', () => {
   });
 
   it('should display a list of items after the data is loaded', () => {
-    const item: ExpensesStore.ExpenseItem = {
+    const item = {
       id: '727212a0-4d73-4615-bd23-d7df6f562491',
       purchasedOn: '2018-12-04',
       nature: 'Restaurant',
