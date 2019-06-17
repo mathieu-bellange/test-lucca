@@ -70,7 +70,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.expenseDetailForm.value);
+    this.store.dispatch(ExpensesStore.actions.updateExpenseItem({ payload: this.expenseDetailForm.value }));
     this.onBack();
   }
 
