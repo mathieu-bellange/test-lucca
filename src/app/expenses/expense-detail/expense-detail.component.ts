@@ -37,9 +37,11 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
   expenseDetailForm = this.fb.group({
     purchasedOn: moment(),
     nature: '',
-    amount: '',
-    comment: '',
-    currency: ExpensesStore.Currency.EUR
+    originalAmount: this.fb.group({
+      amount: '',
+      currency: ExpensesStore.Currency.EUR
+    }),
+    comment: ''
   });
   expenseItem$: Observable<ExpensesStore.ExpenseItem> = this.store.pipe(
     select(ExpensesStore.selectors.selectExpenseItemById),
@@ -54,9 +56,11 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
       this.expenseDetailForm.setValue({
         purchasedOn: expenseItem.purchasedOn || moment(),
         nature: expenseItem.nature || '',
-        amount: expenseItem.originalAmount.amount || '',
-        comment: expenseItem.comment || '',
-        currency: expenseItem.originalAmount.currency || ExpensesStore.Currency.EUR
+        originalAmount: {
+          amount: expenseItem.originalAmount.amount || '',
+          currency: expenseItem.originalAmount.currency || ExpensesStore.Currency.EUR
+        },
+        comment: expenseItem.comment || ''
       });
     });
   }

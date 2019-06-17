@@ -68,9 +68,11 @@ describe('ExpensesDetailComponent', () => {
     expect(component.expenseDetailForm.value).toEqual({
       purchasedOn: expenseItemStub.purchasedOn,
       nature: expenseItemStub.nature,
-      amount: expenseItemStub.originalAmount.amount,
-      comment: expenseItemStub.comment,
-      currency: expenseItemStub.originalAmount.currency
+      originalAmount: {
+        amount: expenseItemStub.originalAmount.amount,
+        currency: expenseItemStub.originalAmount.currency
+      },
+      comment: expenseItemStub.comment
     });
   });
 });
