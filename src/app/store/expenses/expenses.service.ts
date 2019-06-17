@@ -21,4 +21,14 @@ export class ExpensesService {
   get(id: string) {
     return this.http.get(`/api/expenseItems/${id}`);
   }
+
+  /**
+   * Update an expenseItem
+   * @param  body the expense item
+   * @param  id   id of the expense item to update
+   * @return      ExpenseItem updated
+   */
+  put(body: any, id: string) {
+    return this.http.put(`/api/expenseItems/${id}`, body);
+  }
 }
