@@ -1,12 +1,39 @@
+$padding-left = 20em
+$margin-left = 15%
+
 .expenses-detail
   position: absolute
   top: 0
-  left: 0
+  left: $margin-left
   height: 100%
-  width: 100%
+  padding: 2em "calc(%s + %s)" % ($padding-left $margin-left) 2em $padding-left
+  width: "calc(100% - 2 * %s - 2 * %s)" % ($padding-left $margin-left)
   background-color: white
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12)
+  .back-button
+    margin-bottom: 2em
+    position: relative
+    top: -1em
+    left: "calc(-%s)" % $padding-left
   form
     display: flex
     flex-direction: column
+    textarea
+      height: 150px
+      max-height: 250px
     & > *
       width: 100%
+    .amount-container
+      display: flex
+      .amount
+        flex-grow: 3
+      .currency
+        padding-right: 2em
+        flex-grow: 1
+    .form-buttons
+      display: flex
+      justify-content: center
+      button
+        width: 150px
+      & > button
+        margin-right: 8px

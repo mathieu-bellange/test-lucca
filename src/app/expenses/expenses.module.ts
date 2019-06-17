@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MatTableModule, MatDatepickerModule, MatSelectModule } from '@angular/material';
+import {
+  MatFormFieldModule, MatInputModule, MatTableModule,
+  MatDatepickerModule, MatSelectModule, MatButtonModule
+} from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { ExpensesDashboardComponent } from './expenses-dashboard';
@@ -21,6 +24,7 @@ import { EnumToArrayPipe } from './expenses.pipes';
     MatDatepickerModule,
     MatMomentDateModule,
     MatSelectModule,
+    MatButtonModule,
     ReactiveFormsModule
   ],
   declarations: [

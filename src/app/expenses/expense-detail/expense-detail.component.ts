@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -10,7 +11,7 @@ import { ExpensesStore, AppState } from '../../store';
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'YYYY-MM-DD',
+    dateInput: 'LL',
   },
   display: {
     dateInput: 'LL',
@@ -31,6 +32,7 @@ export const MY_FORMATS = {
   ]
 })
 export class ExpenseDetailComponent implements OnInit, OnDestroy {
+  maxDate = moment();
   currencies = ExpensesStore.Currency;
   expenseDetailForm = this.fb.group({
     purchasedOn: moment(),
@@ -45,7 +47,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
   );
   expenseItemSub: Subscription;
 
-  constructor(private store: Store<AppState>, private fb: FormBuilder) { }
+  constructor(private store: Store<AppState>, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.expenseItemSub = this.expenseItem$.subscribe(expenseItem => {
@@ -65,5 +67,11 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log(this.expenseDetailForm.value);
+    this.onBack();
+  }
+
+  onBack() {
+    this.expenseDetailForm.reset();
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

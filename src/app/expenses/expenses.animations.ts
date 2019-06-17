@@ -13,8 +13,7 @@ export const slideInOutAnimation =
           top: 0,
           left: 0,
           width: '100%',
-          height: '100%',
-          'background-color': 'white'
+          height: '100%'
         })
       ], { optional: true }),
       query(':enter', [
@@ -25,7 +24,7 @@ export const slideInOutAnimation =
           animate('1000ms ease-out', style({ left: '100%' }))
         ], { optional: true }),
         query(':enter', [
-          animate('1000ms ease-out', style({ left: '0%' }))
+          animate('1000ms ease-out', style({ left: 0 }))
         ], { optional: true })
       ])
     ])
