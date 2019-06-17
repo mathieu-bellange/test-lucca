@@ -26,7 +26,7 @@ describe('ExpensesEffects', () => {
   });
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('ExpensesService', ['getAll', 'get', 'put']);
+    const spy = jasmine.createSpyObj('ExpensesService', ['getAll', 'get', 'put', 'delete']);
     TestBed.configureTestingModule({
       providers: [
         ExpensesEffects,
@@ -98,6 +98,17 @@ describe('ExpensesEffects', () => {
     effects.updateExpenseItemById$.subscribe(result => {
       expect(expensesServiceSpy.put).toHaveBeenCalledWith(updateItem, expenseItemStub.id);
       expect(result).toEqual(Actions.updateExpenseItemSuccessful({ payload: expectedUpdate}));
+    });
+  });
+
+  it('should delete expense item from ExpensesService on deleteExpenseItem action', () => {
+    const id = '727212a0-4d73-4615-bd23-d7df6f562491';
+    actions = new ReplaySubject(1);
+    actions.next(Actions.deleteExpenseItem({ id }));
+    expensesServiceSpy.delete.and.returnValue(of('200'));
+    effects.deleteExpenseItem$.subscribe(result => {
+      expect(expensesServiceSpy.delete).toHaveBeenCalledWith(id);
+      expect(result).toEqual(Actions.deleteExpenseItemSuccessful());
     });
   });
 });

@@ -41,3 +41,16 @@ export const updateExpenseItemSuccessful = createAction(
   '[Expenses API] Expense Item by id Loaded Success',
   props<{ payload: any }>()
 );
+/**
+ * action to trigger Expense Item delete with id
+ */
+export const deleteExpenseItem = createAction(
+  '[Expenses Page] Delete expense item by id',
+  props<{ id: string }>()
+);
+/**
+ * action trigger when Expense Item delete successfully
+ */
+export const deleteExpenseItemSuccessful = createAction(
+  '[Expenses API] Expense Item by id Deleted Success'
+);

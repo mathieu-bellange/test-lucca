@@ -56,4 +56,17 @@ export class ExpensesEffects {
           catchError(() => EMPTY)
         ))
       ));
+
+    /**
+     * effect responsible of the delete of an expenseItem by id
+     * when ExpensesActions.deleteExpenseItem is dispatch
+     */
+    deleteExpenseItem$ = createEffect(() => this.actions$.pipe(
+      ofType(ExpensesActions.deleteExpenseItem),
+      mergeMap(action => this.expensesService.delete(action.id)
+        .pipe(
+          map(() => ({ type: ExpensesActions.deleteExpenseItemSuccessful.type })),
+          catchError(() => EMPTY)
+        ))
+      ));
 }

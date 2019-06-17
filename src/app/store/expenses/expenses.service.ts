@@ -23,6 +23,15 @@ export class ExpensesService {
   }
 
   /**
+   * Delete an expenseItem by id
+   * @param  id id of the expenseItem
+   * @return    Status 200
+   */
+  delete(id: string) {
+    return this.http.delete(`/api/expenseItems/${id}`);
+  }
+
+  /**
    * Update an expenseItem
    * @param  body the expense item
    * @param  id   id of the expense item to update
