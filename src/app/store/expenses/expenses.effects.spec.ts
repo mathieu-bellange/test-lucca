@@ -90,13 +90,13 @@ describe('ExpensesEffects', () => {
   });
 
   it('should update item from ExpensesService on updateExpenseItem action', () => {
-    const remoteItem: ExpenseItem = Object.assign(new ExpenseItem(), expenseItemStub);
     const updateItem = { comment: 'to update' };
-    const expectedUpdate: ExpenseItem = Object.assign(new ExpenseItem(), remoteItem, updateItem);
+    const expectedUpdate: ExpenseItem = Object.assign(new ExpenseItem(), expenseItemStub, updateItem);
     actions = new ReplaySubject(1);
     actions.next(Actions.updateExpenseItem({ payload: updateItem }));
-    expensesServiceSpy.put.and.returnValue(of(remoteItem));
-    effects.loadExpenseItemById$.subscribe(result => {
+    expensesServiceSpy.put.and.returnValue(of(expectedUpdate));
+    effects.updateExpenseItemById$.subscribe(result => {
+      expect(expensesServiceSpy.put).toHaveBeenCalledWith(updateItem, expenseItemStub.id);
       expect(result).toEqual(Actions.updateExpenseItemSuccessful({ payload: expectedUpdate}));
     });
   });
