@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatFormFieldModule, MatInputModule, MatTableModule,
   MatDatepickerModule, MatSelectModule, MatButtonModule,
-  MatDialogModule
+  MatDialogModule, MatIconModule
 } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
@@ -20,6 +20,7 @@ import { ExpenseDialogComponent } from './expense-dialog';
     CommonModule,
     BrowserAnimationsModule,
     ExpensesRoutingModule,
+    MatIconModule,
     MatDialogModule,
     MatTableModule,
     MatFormFieldModule,
