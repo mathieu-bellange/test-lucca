@@ -52,5 +52,6 @@ export const deleteExpenseItem = createAction(
  * action trigger when Expense Item delete successfully
  */
 export const deleteExpenseItemSuccessful = createAction(
-  '[Expenses API] Expense Item by id Deleted Success'
+  '[Expenses API] Expense Item by id Deleted Success',
+  props<{ id: string }>()
 );

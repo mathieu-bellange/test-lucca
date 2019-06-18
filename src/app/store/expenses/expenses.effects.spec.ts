@@ -108,7 +108,7 @@ describe('ExpensesEffects', () => {
     expensesServiceSpy.delete.and.returnValue(of('200'));
     effects.deleteExpenseItem$.subscribe(result => {
       expect(expensesServiceSpy.delete).toHaveBeenCalledWith(id);
-      expect(result).toEqual(Actions.deleteExpenseItemSuccessful());
+      expect(result).toEqual(Actions.deleteExpenseItemSuccessful({ id }));
     });
   });
 });

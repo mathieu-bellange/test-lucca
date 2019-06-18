@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { EMPTY } from 'rxjs';
-import { map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { EMPTY, concat, of, merge } from 'rxjs';
+import { tap, map, mergeMap, mergeAll, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { AppState } from '../index';
 import * as ExpensesActions from './expenses.actions';
@@ -65,7 +65,9 @@ export class ExpensesEffects {
       ofType(ExpensesActions.deleteExpenseItem),
       mergeMap(action => this.expensesService.delete(action.id)
         .pipe(
-          map(() => ({ type: ExpensesActions.deleteExpenseItemSuccessful.type })),
+          withLatestFrom(this.actions$.pipe(ofType(ExpensesActions.deleteExpenseItem))),
+          map(action => action[1].id),
+          map(id => ({ type: ExpensesActions.deleteExpenseItemSuccessful.type, id  })),
           catchError(() => EMPTY)
         ))
       ));
