@@ -1,5 +1,5 @@
 <div class="expenses-detail">
-  <button class="back-button" (click)="onBack()" mat-button>Back</button>
+  <button type="button" class="back-button" (click)="onBack()" mat-button>Back</button>
   <form [formGroup]="expenseDetailForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <input matInput formControlName="purchasedOn" [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date">
@@ -31,7 +31,7 @@
     </mat-form-field>
     <div class="form-buttons">
       <button type="submit" [disabled]="!expenseDetailForm.valid || !expenseDetailForm.dirty" mat-raised-button color="primary">Sauver</button>
-      <button (click)="deleteConfirmDialog()" mat-raised-button color="primary">Supprimer</button>
+      <button type="button" (click)="deleteConfirmDialog()" mat-raised-button color="primary">Supprimer</button>
     </div>
   </form>
 </div>
