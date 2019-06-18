@@ -26,7 +26,7 @@ describe('ExpensesEffects', () => {
   });
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('ExpensesService', ['getAll', 'get', 'put']);
+    const spy = jasmine.createSpyObj('ExpensesService', ['getAll', 'get', 'put', 'delete']);
     TestBed.configureTestingModule({
       providers: [
         ExpensesEffects,
@@ -90,14 +90,25 @@ describe('ExpensesEffects', () => {
   });
 
   it('should update item from ExpensesService on updateExpenseItem action', () => {
-    const remoteItem: ExpenseItem = Object.assign(new ExpenseItem(), expenseItemStub);
     const updateItem = { comment: 'to update' };
-    const expectedUpdate: ExpenseItem = Object.assign(new ExpenseItem(), remoteItem, updateItem);
+    const expectedUpdate: ExpenseItem = Object.assign(new ExpenseItem(), expenseItemStub, updateItem);
     actions = new ReplaySubject(1);
     actions.next(Actions.updateExpenseItem({ payload: updateItem }));
-    expensesServiceSpy.put.and.returnValue(of(remoteItem));
-    effects.loadExpenseItemById$.subscribe(result => {
+    expensesServiceSpy.put.and.returnValue(of(expectedUpdate));
+    effects.updateExpenseItemById$.subscribe(result => {
+      expect(expensesServiceSpy.put).toHaveBeenCalledWith(updateItem, expenseItemStub.id);
       expect(result).toEqual(Actions.updateExpenseItemSuccessful({ payload: expectedUpdate}));
+    });
+  });
+
+  it('should delete expense item from ExpensesService on deleteExpenseItem action', () => {
+    const id = '727212a0-4d73-4615-bd23-d7df6f562491';
+    actions = new ReplaySubject(1);
+    actions.next(Actions.deleteExpenseItem({ id }));
+    expensesServiceSpy.delete.and.returnValue(of({ id }));
+    effects.deleteExpenseItem$.subscribe(result => {
+      expect(expensesServiceSpy.delete).toHaveBeenCalledWith(id);
+      expect(result).toEqual(Actions.deleteExpenseItemSuccessful({ id }));
     });
   });
 });

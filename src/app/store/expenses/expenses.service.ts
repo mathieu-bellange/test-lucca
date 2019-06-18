@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ExpensesService {
@@ -20,6 +21,17 @@ export class ExpensesService {
    */
   get(id: string) {
     return this.http.get(`/api/expenseItems/${id}`);
+  }
+
+  /**
+   * Delete an expenseItem by id
+   * @param  id id of the expenseItem
+   * @return    Status 200
+   */
+  delete(id: string) {
+    return this.http.delete(`/api/expenseItems/${id}`).pipe(
+      map(() => ({ id }))
+    );
   }
 
   /**

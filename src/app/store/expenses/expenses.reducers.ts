@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { remove, unset } from 'lodash';
 
 import * as ExpensesActions from './expenses.actions';
 import { initialState, State } from './expenses.state';
@@ -22,6 +23,13 @@ const expensesReducer = createReducer(
     return {
       ids: [...state.ids],
       entities: {...state.entities, [action.payload.id]: new ExpenseItem(action.payload) }
+    };
+  }),
+  on(ExpensesActions.deleteExpenseItemSuccessful, (state, action) => {
+    unset(state.entities, action.id);
+    return {
+      ids: remove([...state.ids], action.id),
+      entities: {...state.entities }
     };
   })
 );

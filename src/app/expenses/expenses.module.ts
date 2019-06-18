@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatFormFieldModule, MatInputModule, MatTableModule,
-  MatDatepickerModule, MatSelectModule, MatButtonModule
+  MatDatepickerModule, MatSelectModule, MatButtonModule,
+  MatDialogModule, MatIconModule
 } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
@@ -12,12 +13,15 @@ import { ExpensesDashboardComponent } from './expenses-dashboard';
 import { ExpenseDetailComponent } from './expense-detail';
 import { ExpensesRoutingModule } from './expenses-routing.module';
 import { EnumToArrayPipe } from './expenses.pipes';
+import { ExpenseDialogComponent } from './expense-dialog';
 
 @NgModule({
   imports: [
     CommonModule,
     BrowserAnimationsModule,
     ExpensesRoutingModule,
+    MatIconModule,
+    MatDialogModule,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
@@ -30,7 +34,9 @@ import { EnumToArrayPipe } from './expenses.pipes';
   declarations: [
     ExpensesDashboardComponent,
     ExpenseDetailComponent,
+    ExpenseDialogComponent,
     EnumToArrayPipe
-  ]
+  ],
+  entryComponents: [ExpenseDialogComponent]
 })
 export class ExpensesModule { }

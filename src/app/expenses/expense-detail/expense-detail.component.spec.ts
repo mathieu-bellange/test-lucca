@@ -4,21 +4,34 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule } from '@angular/material';
+import {
+  MatFormFieldModule, MatInputModule,
+  MatDatepickerModule, MatSelectModule,
+  MatDialog, MatDialogRef
+} from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { ReactiveFormsModule } from '@angular/forms';
 import * as moment from 'moment';
+import { Observable, of } from 'rxjs';
 
 import { ExpenseDetailComponent } from './expense-detail.component';
 import { ExpensesStore, AppState } from '../../store';
 import { EnumToArrayPipe } from '../expenses.pipes';
+import { ExpenseDialogComponent } from '../expense-dialog';
 
 describe('ExpensesDetailComponent', () => {
   let component: ExpenseDetailComponent;
   let fixture: ComponentFixture<ExpenseDetailComponent>;
   let store: MockStore<AppState>;
   let router: Router;
+  let dialog: MatDialog;
+  const responseDialog$: Observable<boolean> = of(true);
+  const spyDialog = jasmine.createSpyObj('MatDialog', ['open']);
+  const spyDialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+  spyDialogRef.afterClosed.and.callFake(() => responseDialog$);
+  spyDialog.open.and.returnValue(spyDialogRef);
   const expenseItemStub = new ExpensesStore.ExpenseItem({
+    id: 'test',
     nature: 'test Nature',
     comment: 'test comment',
     originalAmount: new ExpensesStore.Amount({ amount: 5, currency: ExpensesStore.Currency.EUR }),
@@ -42,7 +55,9 @@ describe('ExpensesDetailComponent', () => {
           selectors: [
             { selector: ExpensesStore.selectors.selectExpenseItemById, value: expenseItemStub }
           ]
-        })
+        }),
+        { provide: MatDialog, useValue: spyDialog },
+        { provide: MatDialogRef, useValue: spyDialogRef }
       ],
       declarations: [
         ExpenseDetailComponent,
@@ -51,6 +66,7 @@ describe('ExpensesDetailComponent', () => {
     }).compileComponents();
     store = TestBed.get(Store);
     router = TestBed.get(Router);
+    dialog = TestBed.get(MatDialog);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(ExpenseDetailComponent);
     component = fixture.debugElement.componentInstance;
@@ -95,5 +111,38 @@ describe('ExpensesDetailComponent', () => {
     spyOn(router, 'navigate');
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['../'], jasmine.anything());
+  });
+
+  it('should open a confirm dialog on delete', () => {
+    const expectedData = {
+      purchasedOn: expenseItemStub.purchasedOn,
+      nature: expenseItemStub.nature,
+      originalAmount: {
+        amount: expenseItemStub.originalAmount.amount,
+        currency: expenseItemStub.originalAmount.currency
+      },
+      comment: expenseItemStub.comment
+    };
+    component.ngOnInit();
+    component.deleteConfirmDialog();
+    expect(dialog.open).toHaveBeenCalledWith(ExpenseDialogComponent, { data: expectedData });
+  });
+  it('should call onBack after a confirm dialog on delete', () => {
+    spyOn(component, 'onBack').and.callThrough();
+    component.ngOnInit();
+    component.deleteConfirmDialog();
+    expect(component.onBack).toHaveBeenCalled();
+  });
+  it('should dispatch delete action after a confirm dialog on delete', () => {
+    const action = ExpensesStore.actions.deleteExpenseItem({ id: expenseItemStub.id });
+    component.ngOnInit();
+    component.deleteConfirmDialog();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+  it('should not dispatch delete action after a cancel dialog on delete', () => {
+    spyDialogRef.afterClosed.and.callFake(() => of(false));
+    component.ngOnInit();
+    component.deleteConfirmDialog();
+    expect(store.dispatch).not.toHaveBeenCalled();
   });
 });

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 
 import { ExpensesStore, AppState } from '../../store';
 import { slideInOutAnimation } from '../expenses.animations';
+import { ExpenseDialogComponent } from '../expense-dialog';
 
 /**
  * Expense Items Dashboard Component
@@ -19,13 +21,13 @@ import { slideInOutAnimation } from '../expenses.animations';
   animations: [slideInOutAnimation]
 })
 export class ExpensesDashboardComponent implements OnInit {
-  displayedColumns: string[] = ['purchasedOn', 'nature', 'amount'];
+  displayedColumns: string[] = ['purchasedOn', 'nature', 'amount', 'delete'];
   dataSource$: Observable<Array<ExpensesStore.ExpenseItem>> = this.store.pipe(
     select(ExpensesStore.selectors.selectExpenseItems),
     map(entity => Object.values(entity))
   );
 
-  constructor(private store: Store<AppState>, private router: Router, private route: ActivatedRoute) { }
+  constructor(private store: Store<AppState>, private router: Router, private route: ActivatedRoute, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.store.dispatch(ExpensesStore.actions.loadExpenseItems());
@@ -33,5 +35,16 @@ export class ExpensesDashboardComponent implements OnInit {
 
   onRowSelected(expenseItem: ExpensesStore.ExpenseItem) {
     this.router.navigate([`./${expenseItem.id}`], { relativeTo: this.route });
+  }
+
+  onRowDelete(expenseItem: ExpensesStore.ExpenseItem, $event: Event): void {
+    $event.stopPropagation();
+    const dialogRef = this.dialog.open(ExpenseDialogComponent, {
+      data: expenseItem
+    });
+
+    dialogRef.afterClosed()
+      .pipe(filter(result => result))
+      .subscribe(() => this.store.dispatch(ExpensesStore.actions.deleteExpenseItem({ id: expenseItem.id})));
   }
 }

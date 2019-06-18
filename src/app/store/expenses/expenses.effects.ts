@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { EMPTY } from 'rxjs';
-import { map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { EMPTY, concat, of, merge } from 'rxjs';
+import { tap, map, mergeMap, mergeAll, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { AppState } from '../index';
 import * as ExpensesActions from './expenses.actions';
@@ -53,6 +53,19 @@ export class ExpensesEffects {
       mergeMap(buildReq => this.expensesService.put(buildReq.body, buildReq.id)
         .pipe(
           map(expenseItems => ({ type: ExpensesActions.updateExpenseItemSuccessful.type, payload: expenseItems })),
+          catchError(() => EMPTY)
+        ))
+      ));
+
+    /**
+     * effect responsible of the delete of an expenseItem by id
+     * when ExpensesActions.deleteExpenseItem is dispatch
+     */
+    deleteExpenseItem$ = createEffect(() => this.actions$.pipe(
+      ofType(ExpensesActions.deleteExpenseItem),
+      mergeMap(action => this.expensesService.delete(action.id)
+        .pipe(
+          map(payload => ({ type: ExpensesActions.deleteExpenseItemSuccessful.type, id: payload.id  })),
           catchError(() => EMPTY)
         ))
       ));
