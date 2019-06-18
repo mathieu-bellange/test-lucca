@@ -5,9 +5,11 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 
 import { ExpensesStore, AppState } from '../../store';
+import { ExpenseDialog } from '../expense-dialog';
 
 export const MY_FORMATS = {
   parse: {
@@ -48,8 +50,11 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
     filter(entity => !!entity)
   );
   expenseItemSub: Subscription;
+  responseDialog: (result: boolean) => void = (result: boolean) => console.log(result);
 
-  constructor(private store: Store<AppState>, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private store: Store<AppState>, private fb: FormBuilder, public dialog: MatDialog,
+    private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.expenseItemSub = this.expenseItem$.subscribe(expenseItem => {
@@ -77,5 +82,13 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
   onBack() {
     this.expenseDetailForm.reset();
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  deleteConfirmDialog(): void {
+    const dialogRef = this.dialog.open(ExpenseDialog, {
+      data: this.expenseDetailForm.value
+    });
+
+    dialogRef.afterClosed().subscribe(this.responseDialog);
   }
 }

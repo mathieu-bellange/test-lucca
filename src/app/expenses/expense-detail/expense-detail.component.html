@@ -31,7 +31,7 @@
     </mat-form-field>
     <div class="form-buttons">
       <button type="submit" [disabled]="!expenseDetailForm.valid || !expenseDetailForm.dirty" mat-raised-button color="primary">Sauver</button>
-      <button mat-raised-button color="primary">Supprimer</button>
+      <button (click)="deleteConfirmDialog()" mat-raised-button color="primary">Supprimer</button>
     </div>
   </form>
 </div>
