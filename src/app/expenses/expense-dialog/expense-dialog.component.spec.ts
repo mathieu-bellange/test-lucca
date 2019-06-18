@@ -6,12 +6,12 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 
-import { ExpenseDialog } from './expense-dialog.component';
+import { ExpenseDialogComponent } from './expense-dialog.component';
 
 describe('ExpenseDialogComponent', () => {
-  let component: ExpenseDialog;
-  let fixture: ComponentFixture<ExpenseDialog>;
-  let spyDialogRef: MatDialogRef<ExpenseDialog>;
+  let component: ExpenseDialogComponent;
+  let fixture: ComponentFixture<ExpenseDialogComponent>;
+  let spyDialogRef: MatDialogRef<ExpenseDialogComponent>;
   beforeEach(async(() => {
     const spy = jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']);
     TestBed.configureTestingModule({
@@ -20,15 +20,15 @@ describe('ExpenseDialogComponent', () => {
         MatDialogModule
       ],
       declarations: [
-        ExpenseDialog
+        ExpenseDialogComponent
       ],
       providers: [
-      	{ provide: MatDialogRef, useValue: spy },
+        { provide: MatDialogRef, useValue: spy },
         { provide: MAT_DIALOG_DATA, useValue: [] }
       ]
     }).compileComponents();
     spyDialogRef = TestBed.get(MatDialogRef);
-    fixture = TestBed.createComponent(ExpenseDialog);
+    fixture = TestBed.createComponent(ExpenseDialogComponent);
     component = fixture.debugElement.componentInstance;
   }));
 

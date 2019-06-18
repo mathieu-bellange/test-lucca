@@ -13,7 +13,7 @@ import { ExpensesDashboardComponent } from './expenses-dashboard';
 import { ExpenseDetailComponent } from './expense-detail';
 import { ExpensesRoutingModule } from './expenses-routing.module';
 import { EnumToArrayPipe } from './expenses.pipes';
-import { ExpenseDialog } from './expense-dialog';
+import { ExpenseDialogComponent } from './expense-dialog';
 
 @NgModule({
   imports: [
@@ -28,15 +28,14 @@ import { ExpenseDialog } from './expense-dialog';
     MatMomentDateModule,
     MatSelectModule,
     MatButtonModule,
-    ReactiveFormsModule,
-    FormsModule
+    ReactiveFormsModule
   ],
   declarations: [
     ExpensesDashboardComponent,
     ExpenseDetailComponent,
-    ExpenseDialog,
+    ExpenseDialogComponent,
     EnumToArrayPipe
   ],
-  entryComponents: [ExpenseDialog]
+  entryComponents: [ExpenseDialogComponent]
 })
 export class ExpensesModule { }

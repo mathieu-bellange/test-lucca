@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ExpensesStore } from '../../store';
 
 export interface DialogData {
-  expenseItemToDelete: ExpensesStore.ExpenseItem
+  expenseItemToDelete: ExpensesStore.ExpenseItem;
 }
 
 /**
@@ -15,10 +15,10 @@ export interface DialogData {
   templateUrl: 'expense-dialog.component.html',
   styleUrls: ['expense-dialog.component.styl'],
 })
-export class ExpenseDialog {
+export class ExpenseDialogComponent {
 
   constructor(
-    public dialogRef: MatDialogRef<ExpenseDialog>,
+    public dialogRef: MatDialogRef<ExpenseDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   onCancelClick(): void {

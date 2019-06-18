@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 
 import { ExpensesStore, AppState } from '../../store';
-import { ExpenseDialog } from '../expense-dialog';
+import { ExpenseDialogComponent } from '../expense-dialog';
 
 export const MY_FORMATS = {
   parse: {
@@ -85,7 +85,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
   }
 
   deleteConfirmDialog(): void {
-    const dialogRef = this.dialog.open(ExpenseDialog, {
+    const dialogRef = this.dialog.open(ExpenseDialogComponent, {
       data: this.expenseDetailForm.value
     });
 
