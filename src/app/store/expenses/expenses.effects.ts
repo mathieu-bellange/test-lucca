@@ -65,9 +65,7 @@ export class ExpensesEffects {
       ofType(ExpensesActions.deleteExpenseItem),
       mergeMap(action => this.expensesService.delete(action.id)
         .pipe(
-          withLatestFrom(this.actions$.pipe(ofType(ExpensesActions.deleteExpenseItem))),
-          map(action => action[1].id),
-          map(id => ({ type: ExpensesActions.deleteExpenseItemSuccessful.type, id  })),
+          map(payload => ({ type: ExpensesActions.deleteExpenseItemSuccessful.type, id: payload.id  })),
           catchError(() => EMPTY)
         ))
       ));

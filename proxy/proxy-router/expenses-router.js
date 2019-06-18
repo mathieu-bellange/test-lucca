@@ -17,7 +17,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   _.remove(expenseItems, item => item.id === req.params.id);
-  res.sendStatus(200);
+  res.sendStatus(204);
 });
 
 module.exports = router;

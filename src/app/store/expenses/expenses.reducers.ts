@@ -30,7 +30,7 @@ const expensesReducer = createReducer(
     return {
       ids: remove([...state.ids], action.id),
       entities: {...state.entities }
-    }
+    };
   })
 );
 

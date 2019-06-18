@@ -50,7 +50,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
     filter(entity => !!entity)
   );
   expenseItemSub: Subscription;
-  responseDialog: (result: boolean) => void = (result: boolean) => console.log(result);
+  responseDialog: (result: boolean) => void = (result: boolean) => this.onDelete(result);
 
   constructor(
     private store: Store<AppState>, private fb: FormBuilder, public dialog: MatDialog,
@@ -90,5 +90,12 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(this.responseDialog);
+  }
+
+  onDelete(result: boolean) {
+    this.expenseItem$.pipe(filter(() => result)).subscribe(expenseItem => {
+      this.store.dispatch(ExpensesStore.actions.deleteExpenseItem({ id: expenseItem.id}));
+      this.onBack();
+    });
   }
 }
