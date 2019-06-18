@@ -105,7 +105,7 @@ describe('ExpensesEffects', () => {
     const id = '727212a0-4d73-4615-bd23-d7df6f562491';
     actions = new ReplaySubject(1);
     actions.next(Actions.deleteExpenseItem({ id }));
-    expensesServiceSpy.delete.and.returnValue(of('200'));
+    expensesServiceSpy.delete.and.returnValue(of({ id }));
     effects.deleteExpenseItem$.subscribe(result => {
       expect(expensesServiceSpy.delete).toHaveBeenCalledWith(id);
       expect(result).toEqual(Actions.deleteExpenseItemSuccessful({ id }));

@@ -17,7 +17,7 @@ import { Observable, of } from 'rxjs';
 import { ExpenseDetailComponent } from './expense-detail.component';
 import { ExpensesStore, AppState } from '../../store';
 import { EnumToArrayPipe } from '../expenses.pipes';
-import { ExpenseDialog } from '../expense-dialog';
+import { ExpenseDialogComponent } from '../expense-dialog';
 
 describe('ExpensesDetailComponent', () => {
   let component: ExpenseDetailComponent;
@@ -25,19 +25,19 @@ describe('ExpensesDetailComponent', () => {
   let store: MockStore<AppState>;
   let router: Router;
   let dialog: MatDialog;
-  let dialogRef: MatDialogRef<ExpenseDialog>;
-  let responseDialog$: Observable<boolean> = of(true);
+  const responseDialog$: Observable<boolean> = of(true);
+  const spyDialog = jasmine.createSpyObj('MatDialog', ['open']);
+  const spyDialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+  spyDialogRef.afterClosed.and.callFake(() => responseDialog$);
+  spyDialog.open.and.returnValue(spyDialogRef);
   const expenseItemStub = new ExpensesStore.ExpenseItem({
+    id: 'test',
     nature: 'test Nature',
     comment: 'test comment',
     originalAmount: new ExpensesStore.Amount({ amount: 5, currency: ExpensesStore.Currency.EUR }),
     purchasedOn: moment()
   });
   beforeEach(async(() => {
-    const spyDialog = jasmine.createSpyObj('MatDialog', ['open']);
-    const spyDialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
-    spyDialogRef.afterClosed.and.callFake(() => responseDialog$);
-    spyDialog.open.and.returnValue(spyDialogRef);
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
@@ -67,7 +67,6 @@ describe('ExpensesDetailComponent', () => {
     store = TestBed.get(Store);
     router = TestBed.get(Router);
     dialog = TestBed.get(MatDialog);
-    dialogRef = TestBed.get(MatDialogRef);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(ExpenseDetailComponent);
     component = fixture.debugElement.componentInstance;
@@ -115,19 +114,35 @@ describe('ExpensesDetailComponent', () => {
   });
 
   it('should open a confirm dialog on delete', () => {
+    const expectedData = {
+      purchasedOn: expenseItemStub.purchasedOn,
+      nature: expenseItemStub.nature,
+      originalAmount: {
+        amount: expenseItemStub.originalAmount.amount,
+        currency: expenseItemStub.originalAmount.currency
+      },
+      comment: expenseItemStub.comment
+    };
+    component.ngOnInit();
     component.deleteConfirmDialog();
-    expect(dialog.open).toHaveBeenCalledWith(ExpenseDialog, { data: component.expenseDetailForm.value });
+    expect(dialog.open).toHaveBeenCalledWith(ExpenseDialogComponent, { data: expectedData });
   });
-
-  it('should do something when receive the dialog response', () => {
-    spyOn(responseDialog$, 'subscribe');
+  it('should call onBack after a confirm dialog on delete', () => {
+    spyOn(component, 'onBack').and.callThrough();
+    component.ngOnInit();
     component.deleteConfirmDialog();
-    expect(responseDialog$.subscribe).toHaveBeenCalledWith(component.responseDialog);
+    expect(component.onBack).toHaveBeenCalled();
   });
-
-  it('should call console.log(true) when receive the dialog response', () => {
-    spyOn(console, 'log');
-    component.responseDialog(true);
-    expect(console.log).toHaveBeenCalledWith(true);
+  it('should dispatch delete action after a confirm dialog on delete', () => {
+    const action = ExpensesStore.actions.deleteExpenseItem({ id: expenseItemStub.id });
+    component.ngOnInit();
+    component.deleteConfirmDialog();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+  it('should not dispatch delete action after a cancel dialog on delete', () => {
+    spyDialogRef.afterClosed.and.callFake(() => of(false));
+    component.ngOnInit();
+    component.deleteConfirmDialog();
+    expect(store.dispatch).not.toHaveBeenCalled();
   });
 });

@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, mergeMap, tap } from 'rxjs/operators';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
@@ -50,7 +50,6 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
     filter(entity => !!entity)
   );
   expenseItemSub: Subscription;
-  responseDialog: (result: boolean) => void = (result: boolean) => this.onDelete(result);
 
   constructor(
     private store: Store<AppState>, private fb: FormBuilder, public dialog: MatDialog,
@@ -89,13 +88,11 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
       data: this.expenseDetailForm.value
     });
 
-    dialogRef.afterClosed().subscribe(this.responseDialog);
-  }
-
-  onDelete(result: boolean) {
-    this.expenseItem$.pipe(filter(() => result)).subscribe(expenseItem => {
-      this.store.dispatch(ExpensesStore.actions.deleteExpenseItem({ id: expenseItem.id}));
-      this.onBack();
-    });
+    dialogRef.afterClosed()
+    .pipe(
+      filter(result => result),
+      mergeMap(() => this.expenseItem$),
+      tap(expenseItem => this.store.dispatch(ExpensesStore.actions.deleteExpenseItem({ id: expenseItem.id})))
+    ).subscribe(() => this.onBack());
   }
 }
