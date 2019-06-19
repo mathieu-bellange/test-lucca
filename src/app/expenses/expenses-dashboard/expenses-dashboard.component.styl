@@ -1,11 +1,16 @@
 .expenses-dashboard
   display: flex
   justify-content: center
+  align-items: flex-start
   .mat-table
     flex-basis: 50%
     .mat-row:hover
       background-color: #C5CAE9
       cursor: pointer
+    th[mat-header-cell]:first-child
+      width: 1em
+      padding-left: 0
+      padding-right: 2em
 
 @media (max-width: 1280px)
   .expenses-dashboard

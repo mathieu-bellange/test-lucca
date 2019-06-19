@@ -3,9 +3,17 @@ const expenseItems = require('./expense-items.json');
 const _ = require('lodash');
 
 const router = express.Router();
+let id = 1;
 
 router.get('', (req, res) => {
   res.send(expenseItems)
+});
+
+router.post('', (req, res) => {
+  const newItem = _.assignIn({}, req.body, { lastModifiedAt: new Date(), createdAt: new Date(), id: id++ + '' });
+  expenseItems.push(newItem);
+  console.log(newItem);
+  res.json(newItem);
 });
 
 router.put('/:id', (req, res) => {

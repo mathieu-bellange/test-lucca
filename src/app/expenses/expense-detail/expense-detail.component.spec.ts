@@ -78,8 +78,9 @@ describe('ExpensesDetailComponent', () => {
   it('should unsubscribe observable on ngdestroy', () => {
     const spy = jasmine.createSpyObj('test', ['unsubscribe']);
     component.expenseItemSub = spy;
+    component.dialogRefSub = spy;
     component.ngOnDestroy();
-    expect(spy.unsubscribe).toHaveBeenCalled();
+    expect(spy.unsubscribe).toHaveBeenCalledTimes(2);
   });
 
   it('should bind expenseItemById with the form on ngInit', () => {
@@ -129,12 +130,14 @@ describe('ExpensesDetailComponent', () => {
   });
   it('should call onBack after a confirm dialog on delete', () => {
     spyOn(component, 'onBack').and.callThrough();
+    spyDialogRef.afterClosed.and.callFake(() => of(true));
     component.ngOnInit();
     component.deleteConfirmDialog();
     expect(component.onBack).toHaveBeenCalled();
   });
   it('should dispatch delete action after a confirm dialog on delete', () => {
     const action = ExpensesStore.actions.deleteExpenseItem({ id: expenseItemStub.id });
+    spyDialogRef.afterClosed.and.callFake(() => of(true));
     component.ngOnInit();
     component.deleteConfirmDialog();
     expect(store.dispatch).toHaveBeenCalledWith(action);

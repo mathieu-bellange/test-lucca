@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ExpensesService {
@@ -42,5 +42,14 @@ export class ExpensesService {
    */
   put(body: any, id: string) {
     return this.http.put(`/api/expenseItems/${id}`, body);
+  }
+
+  /**
+   * create an expenseItem
+   * @param  body the expense item
+   * @return      ExpenseItem updated
+   */
+  post(body: any) {
+    return this.http.post('/api/expenseItems', body);
   }
 }

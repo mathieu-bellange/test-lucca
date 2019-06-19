@@ -38,7 +38,14 @@ export const updateExpenseItem = createAction(
  * action trigger when Expense Item updated successfully
  */
 export const updateExpenseItemSuccessful = createAction(
-  '[Expenses API] Expense Item by id Loaded Success',
+  '[Expenses API] Expense Item by id updated Success',
+  props<{ payload: any }>()
+);
+/**
+ * action trigger when Expense Item created successfully
+ */
+export const createExpenseItemSuccessful = createAction(
+  '[Expenses API] Expense Item by id created Success',
   props<{ payload: any }>()
 );
 /**

@@ -21,7 +21,7 @@ import { ExpenseDialogComponent } from '../expense-dialog';
   animations: [slideInOutAnimation]
 })
 export class ExpensesDashboardComponent implements OnInit {
-  displayedColumns: string[] = ['purchasedOn', 'nature', 'amount', 'delete'];
+  displayedColumns: string[] = ['addExpenseItem', 'purchasedOn', 'nature', 'amount', 'delete'];
   dataSource$: Observable<Array<ExpensesStore.ExpenseItem>> = this.store.pipe(
     select(ExpensesStore.selectors.selectExpenseItems),
     map(entity => Object.values(entity))
@@ -46,5 +46,9 @@ export class ExpensesDashboardComponent implements OnInit {
     dialogRef.afterClosed()
       .pipe(filter(result => result))
       .subscribe(() => this.store.dispatch(ExpensesStore.actions.deleteExpenseItem({ id: expenseItem.id})));
+  }
+
+  onAdd() {
+    this.router.navigate(['./add'], { relativeTo: this.route });
   }
 }

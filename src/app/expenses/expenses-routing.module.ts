@@ -9,6 +9,7 @@ const expensesRoutes: Routes = [
     path: 'expenses',
     component: ExpensesDashboardComponent,
     children: [
+      { path: 'add', component: ExpenseDetailComponent },
       { path: ':id', component: ExpenseDetailComponent }
     ]
   }
