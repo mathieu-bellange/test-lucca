@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { filter, mergeMap, tap } from 'rxjs/operators';
+import { filter, mergeMap, tap, map } from 'rxjs/operators';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
@@ -49,6 +49,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
     select(ExpensesStore.selectors.selectExpenseItemById),
     filter(entity => !!entity)
   );
+  newItem$: Observable<boolean> = this.expenseItem$.pipe(map(entity => !!entity.id));
   expenseItemSub: Subscription;
   dialogRefSub: Subscription;
 

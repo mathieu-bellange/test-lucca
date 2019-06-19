@@ -31,7 +31,7 @@
     </mat-form-field>
     <div class="form-buttons">
       <button type="submit" [disabled]="!expenseDetailForm.valid || !expenseDetailForm.dirty" mat-raised-button color="primary">Sauver</button>
-      <button type="button" (click)="deleteConfirmDialog()" mat-raised-button color="primary">Supprimer</button>
+      <button type="button" *ngIf="newItem$ | async" (click)="deleteConfirmDialog()" mat-raised-button color="primary">Supprimer</button>
     </div>
   </form>
 </div>
