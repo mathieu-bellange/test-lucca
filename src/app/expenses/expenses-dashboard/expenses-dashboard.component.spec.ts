@@ -84,4 +84,11 @@ describe('ExpensesDashboardComponent', () => {
     component.onRowSelected(itemSelected);
     expect(router.navigate).toHaveBeenCalledWith([`./${itemSelected.id}`], jasmine.anything());
   });
+
+  it('should navigate on add', () => {
+    const router = TestBed.get(Router);
+    spyOn(router, 'navigate');
+    component.onAdd();
+    expect(router.navigate).toHaveBeenCalledWith(['./add'], jasmine.anything());
+  });
 });
