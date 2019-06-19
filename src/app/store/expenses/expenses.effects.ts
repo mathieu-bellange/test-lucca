@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { EMPTY, concat, of, merge } from 'rxjs';
-import { tap, map, mergeMap, mergeAll, catchError, withLatestFrom } from 'rxjs/operators';
+import { EMPTY} from 'rxjs';
+import { map, mergeMap, filter, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { AppState } from '../index';
 import * as ExpensesActions from './expenses.actions';
@@ -44,11 +44,13 @@ export class ExpensesEffects {
 
     /**
      * effect responsible of the updating of an expenseItem by id
-     * when ExpensesActions.updateExpenseItemById is dispatch
+     * when ExpensesActions.updateExpenseItem is dispatch
+     * filter based on the presence of the entity
      */
     updateExpenseItemById$ = createEffect(() => this.actions$.pipe(
       ofType(ExpensesActions.updateExpenseItem),
       withLatestFrom(this.store.pipe(select(selectExpenseItemById))),
+      filter(action => !!action[1]),
       map(action => ({ id: action[1].id, body: action[0].payload })),
       mergeMap(buildReq => this.expensesService.put(buildReq.body, buildReq.id)
         .pipe(
@@ -56,6 +58,23 @@ export class ExpensesEffects {
           catchError(() => EMPTY)
         ))
       ));
+
+      /**
+       * effect responsible of the creating of a new expenseItem
+       * when ExpensesActions.updateExpenseItem is dispatch
+       * filter based on the absence of the entity
+       */
+      createExpenseItem$ = createEffect(() => this.actions$.pipe(
+        ofType(ExpensesActions.updateExpenseItem),
+        withLatestFrom(this.store.pipe(select(selectExpenseItemById))),
+        filter(action => !action[1]),
+        map(action => ({ body: action[0].payload })),
+        mergeMap(buildReq => this.expensesService.post(buildReq.body)
+          .pipe(
+            map(expenseItems => ({ type: ExpensesActions.updateExpenseItemSuccessful.type, payload: expenseItems })),
+            catchError(() => EMPTY)
+          ))
+        ));
 
     /**
      * effect responsible of the delete of an expenseItem by id

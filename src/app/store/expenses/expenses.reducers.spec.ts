@@ -101,5 +101,23 @@ describe('Expenses reducer', () => {
       const state = reducer(initialState, action);
       expect(state).toEqual(expectedState);
     });
+
+    it('should return the new state on action createExpenseItemSuccessful', () => {
+      const stubItem: ExpenseItem = new ExpenseItem({
+        id: 'new id',
+        purchasedOn: '2018-12-04',
+        nature: 'Restaurant',
+        comment: 'test',
+        originalAmount: {
+          amount: 17.0,
+          currency: Currency.GBP
+        }
+      });
+      const initialState: State = { ids: [], entities: { }};
+      const expectedState: State = { ids: [stubItem.id], entities: { [stubItem.id]: stubItem }};
+      const action = actions.createExpenseItemSuccessful({ payload: stubItem });
+      const state = reducer(initialState, action);
+      expect(state).toEqual(expectedState);
+    });
   });
 });
