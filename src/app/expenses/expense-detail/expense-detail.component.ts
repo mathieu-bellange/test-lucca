@@ -50,6 +50,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
     filter(entity => !!entity)
   );
   expenseItemSub: Subscription;
+  dialogRefSub: Subscription;
 
   constructor(
     private store: Store<AppState>, private fb: FormBuilder, public dialog: MatDialog,
@@ -71,6 +72,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.expenseItemSub) this.expenseItemSub.unsubscribe();
+    if (this.dialogRefSub) this.dialogRefSub.unsubscribe();
   }
 
   onSubmit() {
@@ -88,11 +90,11 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
       data: this.expenseDetailForm.value
     });
 
-    dialogRef.afterClosed()
-    .pipe(
-      filter(result => result),
-      mergeMap(() => this.expenseItem$),
-      tap(expenseItem => this.store.dispatch(ExpensesStore.actions.deleteExpenseItem({ id: expenseItem.id})))
-    ).subscribe(() => this.onBack());
+    this.dialogRefSub = dialogRef.afterClosed()
+      .pipe(
+        filter(result => result),
+        mergeMap(() => this.expenseItem$),
+        tap(expenseItem => this.store.dispatch(ExpensesStore.actions.deleteExpenseItem({ id: expenseItem.id})))
+      ).subscribe(() => this.onBack());
   }
 }
