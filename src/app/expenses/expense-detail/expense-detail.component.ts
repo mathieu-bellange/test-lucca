@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -37,11 +37,11 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
   maxDate = moment();
   currencies = ExpensesStore.Currency;
   expenseDetailForm = this.fb.group({
-    purchasedOn: moment(),
-    nature: '',
+    purchasedOn: [moment(), [Validators.required]],
+    nature: ['', [Validators.required]],
     originalAmount: this.fb.group({
-      amount: '',
-      currency: ExpensesStore.Currency.EUR
+      amount: ['', [Validators.required]],
+      currency: [ExpensesStore.Currency.EUR]
     }),
     comment: ''
   });
@@ -75,6 +75,9 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
     if (this.expenseItemSub) this.expenseItemSub.unsubscribe();
     if (this.dialogRefSub) this.dialogRefSub.unsubscribe();
   }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.expenseDetailForm.controls; }
 
   onSubmit() {
     this.store.dispatch(ExpensesStore.actions.updateExpenseItem({ payload: this.expenseDetailForm.value }));
