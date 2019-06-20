@@ -1,11 +1,12 @@
 import { RouterReducerState } from '@ngrx/router-store';
 
-import * as ExpensesStore from './expenses';
-import { State as ExpensesState} from './expenses/expenses.state';
+import * as fromExpenses from './expenses';
+import { State as ExpensesState} from './expenses';
 
 export interface AppState {
   router: RouterReducerState<any>;
   expenses: ExpensesState;
 }
 
-export { ExpensesStore };
+export { fromExpenses };
+export * from './model';

@@ -1,9 +1,9 @@
 import { createSelector } from '@ngrx/store';
 
 import { State } from './expenses.state';
-import { AppState } from '../index';
-import { selectRouteParams } from '../router.selectors';
-import { ExpenseItem } from './model';
+import { AppState } from '../../index';
+import { selectRouteParams } from '../../router.selectors';
+import { ExpenseItem } from '../../model';
 
 export const selectExpenses = (state: AppState) => state.expenses;
 

@@ -3,7 +3,7 @@ import { createAction } from '@ngrx/store';
 import { reducer } from './expenses.reducers';
 import { State } from './expenses.state';
 import * as actions from './expenses.actions';
-import { ExpenseItem, Currency } from './model';
+import { ExpenseItem, Currency } from '../../model';
 
 describe('Expenses reducer', () => {
   it('should return the default state on unknown action', () => {

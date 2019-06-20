@@ -7,13 +7,13 @@ import { StoreModule, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
 import { ExpensesDashboardComponent } from './expenses-dashboard.component';
-import { ExpensesStore } from '../../store';
+import { fromExpenses, Currency, ExpenseItem } from '../../store';
 import { ExpenseDialogComponent } from '../expense-dialog';
 
 describe('ExpensesDashboardComponent', () => {
   let component: ExpensesDashboardComponent;
   let fixture: ComponentFixture<ExpensesDashboardComponent>;
-  let store: Store<ExpensesStore.State>;
+  let store: Store<fromExpenses.State>;
   let dialog: MatDialog;
   let dialogRef: MatDialogRef<ExpenseDialogComponent>;
   const responseDialog$: Observable<boolean> = of(true);
@@ -25,7 +25,7 @@ describe('ExpensesDashboardComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          expenses: ExpensesStore.reducer
+          expenses: fromExpenses.reducer
         }),
         RouterTestingModule,
         MatTableModule,
@@ -54,7 +54,7 @@ describe('ExpensesDashboardComponent', () => {
   });
 
   it('should dispatch an action to load data when created', () => {
-    const action = ExpensesStore.actions.loadExpenseItems();
+    const action = fromExpenses.loadExpenseItems();
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
@@ -66,11 +66,11 @@ describe('ExpensesDashboardComponent', () => {
       comment: 'comment',
       originalAmount: {
         amount: 17.0,
-        currency: ExpensesStore.Currency.GBP
+        currency: Currency.GBP
       }
     };
     const items = [item];
-    const action = ExpensesStore.actions.loadExpenseItemsSuccessful({ payload: items});
+    const action = fromExpenses.loadExpenseItemsSuccessful({ payload: items});
     store.dispatch(action);
     component.dataSource$.subscribe(data => {
       expect(data.length).toBe(items.length);
@@ -78,7 +78,7 @@ describe('ExpensesDashboardComponent', () => {
   });
 
   it('should navigate after a row selection', () => {
-    const itemSelected = new ExpensesStore.ExpenseItem({ id: '727212a0-4d73-4615-bd23-d7df6f562491' });
+    const itemSelected = new ExpenseItem({ id: '727212a0-4d73-4615-bd23-d7df6f562491' });
     const router = TestBed.get(Router);
     spyOn(router, 'navigate');
     component.onRowSelected(itemSelected);

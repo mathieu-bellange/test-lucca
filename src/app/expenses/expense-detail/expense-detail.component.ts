@@ -8,7 +8,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 
-import { ExpensesStore, AppState } from '../../store';
+import { fromExpenses, AppState, Currency, ExpenseItem } from '../../store';
 import { ExpenseDialogComponent } from '../expense-dialog';
 
 export const MY_FORMATS = {
@@ -35,18 +35,18 @@ export const MY_FORMATS = {
 })
 export class ExpenseDetailComponent implements OnInit, OnDestroy {
   maxDate = moment();
-  currencies = ExpensesStore.Currency;
+  currencies = Currency;
   expenseDetailForm = this.fb.group({
     purchasedOn: [moment(), [Validators.required]],
     nature: ['', [Validators.required]],
     originalAmount: this.fb.group({
       amount: ['', [Validators.required]],
-      currency: [ExpensesStore.Currency.EUR]
+      currency: [Currency.EUR]
     }),
     comment: ''
   });
-  expenseItem$: Observable<ExpensesStore.ExpenseItem> = this.store.pipe(
-    select(ExpensesStore.selectors.selectExpenseItemById),
+  expenseItem$: Observable<ExpenseItem> = this.store.pipe(
+    select(fromExpenses.selectExpenseItemById),
     filter(entity => !!entity)
   );
   newItem$: Observable<boolean> = this.expenseItem$.pipe(map(entity => !!entity.id));
@@ -64,7 +64,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
         nature: expenseItem.nature || '',
         originalAmount: {
           amount: expenseItem.originalAmount.amount || '',
-          currency: expenseItem.originalAmount.currency || ExpensesStore.Currency.EUR
+          currency: expenseItem.originalAmount.currency || Currency.EUR
         },
         comment: expenseItem.comment || ''
       });
@@ -80,7 +80,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
   get f() { return this.expenseDetailForm.controls; }
 
   onSubmit() {
-    this.store.dispatch(ExpensesStore.actions.updateExpenseItem({ payload: this.expenseDetailForm.value }));
+    this.store.dispatch(fromExpenses.updateExpenseItem({ payload: this.expenseDetailForm.value }));
     this.onBack();
   }
 
@@ -98,7 +98,7 @@ export class ExpenseDetailComponent implements OnInit, OnDestroy {
       .pipe(
         filter(result => result),
         mergeMap(() => this.expenseItem$),
-        tap(expenseItem => this.store.dispatch(ExpensesStore.actions.deleteExpenseItem({ id: expenseItem.id})))
+        tap(expenseItem => this.store.dispatch(fromExpenses.deleteExpenseItem({ id: expenseItem.id})))
       ).subscribe(() => this.onBack());
   }
 }

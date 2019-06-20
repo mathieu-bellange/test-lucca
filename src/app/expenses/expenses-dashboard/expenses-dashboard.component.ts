@@ -4,10 +4,9 @@ import { Store, select } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import {MediaObserver} from '@angular/flex-layout';
 import { Observable } from 'rxjs';
-import { map, filter, tap } from 'rxjs/operators';
-import { remove, union } from 'lodash';
+import { map, filter } from 'rxjs/operators';
 
-import { ExpensesStore, AppState } from '../../store';
+import { fromExpenses, AppState, ExpenseItem } from '../../store';
 import { slideInOutAnimation } from '../expenses.animations';
 import { ExpenseDialogComponent } from '../expense-dialog';
 
@@ -26,8 +25,8 @@ export class ExpensesDashboardComponent implements OnInit {
   displayedColumns: string[];
   displayedColumnsOnXs: string[] = ['purchasedOn', 'nature', 'amount'];
   displayedColumnsOnOthers: string[] = ['addExpenseItem', 'purchasedOn', 'nature', 'amount', 'delete'];
-  dataSource$: Observable<Array<ExpensesStore.ExpenseItem>> = this.store.pipe(
-    select(ExpensesStore.selectors.selectExpenseItems),
+  dataSource$: Observable<Array<ExpenseItem>> = this.store.pipe(
+    select(fromExpenses.selectExpenseItems),
     map(entity => Object.values(entity))
   );
   xsMedia$ = this.mediaObserver.media$.pipe(filter(mediaChange => mediaChange.mqAlias === 'xs' ));
@@ -38,16 +37,16 @@ export class ExpensesDashboardComponent implements OnInit {
     public dialog: MatDialog, public mediaObserver: MediaObserver) { }
 
   ngOnInit() {
-    this.store.dispatch(ExpensesStore.actions.loadExpenseItems());
+    this.store.dispatch(fromExpenses.loadExpenseItems());
     this.xsMedia$.subscribe(() => this.displayedColumns = this.displayedColumnsOnXs);
     this.notXsMedia$.subscribe(() => this.displayedColumns = this.displayedColumnsOnOthers);
   }
 
-  onRowSelected(expenseItem: ExpensesStore.ExpenseItem) {
+  onRowSelected(expenseItem: ExpenseItem) {
     this.router.navigate([`./${expenseItem.id}`], { relativeTo: this.route });
   }
 
-  onRowDelete(expenseItem: ExpensesStore.ExpenseItem, $event: Event): void {
+  onRowDelete(expenseItem: ExpenseItem, $event: Event): void {
     $event.stopPropagation();
     const dialogRef = this.dialog.open(ExpenseDialogComponent, {
       data: expenseItem
@@ -55,7 +54,7 @@ export class ExpensesDashboardComponent implements OnInit {
 
     dialogRef.afterClosed()
       .pipe(filter(result => result))
-      .subscribe(() => this.store.dispatch(ExpensesStore.actions.deleteExpenseItem({ id: expenseItem.id})));
+      .subscribe(() => this.store.dispatch(fromExpenses.deleteExpenseItem({ id: expenseItem.id})));
   }
 
   onAdd() {

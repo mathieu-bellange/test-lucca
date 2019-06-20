@@ -1,10 +1,10 @@
 import {Component, Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { ExpensesStore } from '../../store';
+import { ExpenseItem } from '../../store';
 
 export interface DialogData {
-  expenseItemToDelete: ExpensesStore.ExpenseItem;
+  expenseItemToDelete: ExpenseItem;
 }
 
 /**

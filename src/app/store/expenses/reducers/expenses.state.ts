@@ -1,4 +1,4 @@
-import { ExpenseItem } from './model';
+import { ExpenseItem } from '../../model';
 
 export interface State {
   ids: string[];

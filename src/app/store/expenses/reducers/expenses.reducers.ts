@@ -1,13 +1,13 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { remove, unset } from 'lodash';
 
-import * as ExpensesActions from './expenses.actions';
+import * as actions from './expenses.actions';
 import { initialState, State } from './expenses.state';
-import { ExpenseItem } from './model';
+import { ExpenseItem } from '../../model';
 
 const expensesReducer = createReducer(
   initialState,
-  on(ExpensesActions.loadExpenseItemsSuccessful, (state, action) => {
+  on(actions.loadExpenseItemsSuccessful, (state, action) => {
     const newState: State = {
       ids: [],
       entities: {}
@@ -19,20 +19,20 @@ const expensesReducer = createReducer(
     });
     return newState;
   }),
-  on(ExpensesActions.loadExpenseItemByIdSuccessful, ExpensesActions.updateExpenseItemSuccessful, (state, action) => {
+  on(actions.loadExpenseItemByIdSuccessful, actions.updateExpenseItemSuccessful, (state, action) => {
     return {
       ids: [...state.ids],
       entities: {...state.entities, [action.payload.id]: new ExpenseItem(action.payload) }
     };
   }),
-  on(ExpensesActions.deleteExpenseItemSuccessful, (state, action) => {
+  on(actions.deleteExpenseItemSuccessful, (state, action) => {
     unset(state.entities, action.id);
     return {
       ids: remove([...state.ids], action.id),
       entities: {...state.entities }
     };
   }),
-  on(ExpensesActions.createExpenseItemSuccessful, (state, action) => {
+  on(actions.createExpenseItemSuccessful, (state, action) => {
     return {
       ids: [...state.ids, action.payload.id],
       entities: {...state.entities, [action.payload.id]: new ExpenseItem(action.payload) }

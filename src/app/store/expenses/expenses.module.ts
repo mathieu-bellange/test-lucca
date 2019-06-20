@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { ExpensesEffects } from './expenses.effects';
-import { reducer } from './expenses.reducers';
-import { ExpensesService } from './expenses.service';
+import { ExpensesEffects, ExpensesService } from './effects';
+import { reducer } from './reducers';
 
 /**
  * Feature Expenses NgModule

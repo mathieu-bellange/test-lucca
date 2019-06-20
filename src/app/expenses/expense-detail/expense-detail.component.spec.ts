@@ -15,7 +15,7 @@ import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
 
 import { ExpenseDetailComponent } from './expense-detail.component';
-import { ExpensesStore, AppState } from '../../store';
+import { fromExpenses, AppState, ExpenseItem, Amount, Currency } from '../../store';
 import { EnumToArrayPipe } from '../expenses.pipes';
 import { ExpenseDialogComponent } from '../expense-dialog';
 
@@ -30,11 +30,11 @@ describe('ExpensesDetailComponent', () => {
   const spyDialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
   spyDialogRef.afterClosed.and.callFake(() => responseDialog$);
   spyDialog.open.and.returnValue(spyDialogRef);
-  const expenseItemStub = new ExpensesStore.ExpenseItem({
+  const expenseItemStub = new ExpenseItem({
     id: 'test',
     nature: 'test Nature',
     comment: 'test comment',
-    originalAmount: new ExpensesStore.Amount({ amount: 5, currency: ExpensesStore.Currency.EUR }),
+    originalAmount: new Amount({ amount: 5, currency: Currency.EUR }),
     purchasedOn: moment()
   });
   beforeEach(async(() => {
@@ -53,7 +53,7 @@ describe('ExpensesDetailComponent', () => {
         provideMockStore({
           initialState : { router: {}, entities: {} },
           selectors: [
-            { selector: ExpensesStore.selectors.selectExpenseItemById, value: expenseItemStub }
+            { selector: fromExpenses.selectExpenseItemById, value: expenseItemStub }
           ]
         }),
         { provide: MatDialog, useValue: spyDialog },
@@ -97,7 +97,7 @@ describe('ExpensesDetailComponent', () => {
   });
 
   it('should dispatch an action to update data onSubmit', () => {
-    const action = ExpensesStore.actions.updateExpenseItem({ payload: component.expenseDetailForm.value });
+    const action = fromExpenses.updateExpenseItem({ payload: component.expenseDetailForm.value });
     component.onSubmit();
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
@@ -136,7 +136,7 @@ describe('ExpensesDetailComponent', () => {
     expect(component.onBack).toHaveBeenCalled();
   });
   it('should dispatch delete action after a confirm dialog on delete', () => {
-    const action = ExpensesStore.actions.deleteExpenseItem({ id: expenseItemStub.id });
+    const action = fromExpenses.deleteExpenseItem({ id: expenseItemStub.id });
     spyDialogRef.afterClosed.and.callFake(() => of(true));
     component.ngOnInit();
     component.deleteConfirmDialog();
