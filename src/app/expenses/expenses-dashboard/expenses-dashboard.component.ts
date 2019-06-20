@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
+import {MediaObserver} from '@angular/flex-layout';
 import { Observable } from 'rxjs';
 import { map, filter, tap } from 'rxjs/operators';
+import { remove, union } from 'lodash';
 
 import { ExpensesStore, AppState } from '../../store';
 import { slideInOutAnimation } from '../expenses.animations';
@@ -21,16 +23,24 @@ import { ExpenseDialogComponent } from '../expense-dialog';
   animations: [slideInOutAnimation]
 })
 export class ExpensesDashboardComponent implements OnInit {
-  displayedColumns: string[] = ['addExpenseItem', 'purchasedOn', 'nature', 'amount', 'delete'];
+  displayedColumns: string[];
+  displayedColumnsOnXs: string[] = ['purchasedOn', 'nature', 'amount'];
+  displayedColumnsOnOthers: string[] = ['addExpenseItem', 'purchasedOn', 'nature', 'amount', 'delete'];
   dataSource$: Observable<Array<ExpensesStore.ExpenseItem>> = this.store.pipe(
     select(ExpensesStore.selectors.selectExpenseItems),
     map(entity => Object.values(entity))
   );
+  xsMedia$ = this.mediaObserver.media$.pipe(filter(mediaChange => mediaChange.mqAlias === 'xs' ));
+  notXsMedia$ = this.mediaObserver.media$.pipe(filter(mediaChange => mediaChange.mqAlias !== 'xs' ));
 
-  constructor(private store: Store<AppState>, private router: Router, private route: ActivatedRoute, public dialog: MatDialog) { }
+  constructor(
+    private store: Store<AppState>, private router: Router, private route: ActivatedRoute,
+    public dialog: MatDialog, public mediaObserver: MediaObserver) { }
 
   ngOnInit() {
     this.store.dispatch(ExpensesStore.actions.loadExpenseItems());
+    this.xsMedia$.subscribe(() => this.displayedColumns = this.displayedColumnsOnXs);
+    this.notXsMedia$.subscribe(() => this.displayedColumns = this.displayedColumnsOnOthers);
   }
 
   onRowSelected(expenseItem: ExpensesStore.ExpenseItem) {

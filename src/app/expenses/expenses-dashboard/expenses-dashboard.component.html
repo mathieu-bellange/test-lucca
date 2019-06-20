@@ -36,6 +36,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowSelected(row, $event)"></tr>
     </table>
+    <button fxHide fxHide.xs="false" type="button" class="add-xs-button" (click)="onAdd()" mat-raised-button><mat-icon>playlist_add</mat-icon></button>
     <div [@slideInOutAnimation]="routerOutlet.isActivated ? routerOutlet.activatedRoute : ''">
       <router-outlet #routerOutlet="outlet"></router-outlet>
     </div>

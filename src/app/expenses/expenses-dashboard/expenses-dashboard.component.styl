@@ -4,6 +4,7 @@
   align-items: flex-start
   .mat-table
     flex-basis: 50%
+    margin-bottom: 2em
     .mat-row:hover
       background-color: #C5CAE9
       cursor: pointer
@@ -21,3 +22,19 @@
   .expenses-dashboard
     .mat-table
       flex-basis: 95%
+
+@media (max-width: 600px)
+  .expenses-dashboard
+    padding: 0 1em
+    flex-direction: column
+    align-items: center
+    flex-basis: 100%
+    .mat-table
+      width: 100%
+      th[mat-header-cell]:first-child
+        width: auto
+        padding-left: 24px
+        padding-right: 0
+    .add-xs-button
+      width: 100%
+      box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12)
