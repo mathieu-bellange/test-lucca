@@ -11,8 +11,7 @@ export const selectToEuro = createSelector(
   (state: State) => state.toEUR
 );
 
-export const rateToEuro = createSelector(
-  selectCurrency,
+export const selectRateToEuro = createSelector(
   selectToEuro,
-  (state: State, rateState: CurrencyRateState, props: { currency: Currency }) => rateState[`from${props.currency}`]
+  (rateState: CurrencyRateState, props: { currency: Currency }) => rateState[`from${props.currency}`]
 );

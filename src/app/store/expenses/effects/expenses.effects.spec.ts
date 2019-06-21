@@ -17,20 +17,21 @@ describe('ExpensesEffects', () => {
     id: '727212a0-4d73-4615-bd23-d7df6f562491',
     nature: 'test Nature',
     comment: 'test comment',
-    originalAmount: new Amount({ amount: 5, currency: Currency.EUR }),
+    originalAmount: new Amount({ amount: 5, currency: Currency.USD }),
+    convertedAmount: new Amount({ amount: 2.5, currency: Currency.EUR }),
     purchasedOn: moment()
   });
 
   describe('expense-detail effects without id', () => {
     beforeEach(() => {
-      const spy = jasmine.createSpyObj('ExpensesService', ['post']);
+      const spy = jasmine.createSpyObj('ExpensesService', ['post', 'convertedAmount']);
       TestBed.configureTestingModule({
         providers: [
           ExpensesEffects,
           provideMockStore({
-            initialState : { router: {}, entities: {} },
+            initialState : { router: {}, entities: {}, currency: { toEUR: { fromUSD: 0.5}} },
             selectors: [
-              { selector: reducers.selectExpenseItemById, value: new ExpenseItem() }
+              { selector: reducers.selectExpenseItemById, value: null }
             ]
           }),
           provideMockActions(() => actions),
@@ -45,35 +46,42 @@ describe('ExpensesEffects', () => {
       expect(effects).toBeTruthy();
     });
 
-    it('should create item from ExpensesService on updateExpenseItem action', () => {
+    it('should create item from ExpensesService on updateExpenseItem action', (done: DoneFn) => {
       const createItem = {
         date: moment(),
         nature: 'test',
         originalAmount: {
           amount: 2,
-          currency: 'EUR'
+          currency: 'USD'
         },
         comment: 'to create'
       };
-      const expectedCreate = Object.assign({}, createItem, { id: 'test' });
+      const afterUpdateAmount: any = Object.assign({}, createItem,
+        { convertedAmount: { amount: 1, currency: Currency.EUR} }
+      );
+      const expectedCreate = Object.assign({}, afterUpdateAmount,
+        { id: 'test' }
+      );
       actions = new ReplaySubject(1);
       actions.next(reducers.updateExpenseItem({ payload: createItem }));
+      expensesServiceSpy.convertedAmount.and.returnValue(of(afterUpdateAmount));
       expensesServiceSpy.post.and.returnValue(of(expectedCreate));
       effects.createExpenseItem$.subscribe(result => {
-        expect(expensesServiceSpy.post).toHaveBeenCalledWith(createItem);
+        expect(expensesServiceSpy.post).toHaveBeenCalledWith(afterUpdateAmount);
         expect(result).toEqual(reducers.updateExpenseItemSuccessful({ payload: expectedCreate}));
+        done();
       });
     });
   });
 
   describe('expense-detail effects with id', () => {
     beforeEach(() => {
-      const spy = jasmine.createSpyObj('ExpensesService', ['getAll', 'get', 'put', 'delete']);
+      const spy = jasmine.createSpyObj('ExpensesService', ['getAll', 'get', 'put', 'delete', 'convertedAmount']);
       TestBed.configureTestingModule({
         providers: [
           ExpensesEffects,
           provideMockStore({
-            initialState : { router: {}, entities: {} },
+            initialState : { router: {}, entities: {}, currency: { toEUR: { fromUSD: 0.5}} },
             selectors: [
               { selector: reducers.selectExpenseItemById, value: expenseItemStub }
             ]
@@ -90,7 +98,7 @@ describe('ExpensesEffects', () => {
       expect(effects).toBeTruthy();
     });
 
-    it('should get all expense item from ExpensesService on loadExpenseItems action', () => {
+    it('should get all expense item from ExpensesService on loadExpenseItems action', (done: DoneFn) => {
       const stubItem = {
         id: '727212a0-4d73-4615-bd23-d7df6f562491',
         purchasedOn: '2018-12-04',
@@ -107,10 +115,11 @@ describe('ExpensesEffects', () => {
       expensesServiceSpy.getAll.and.returnValue(of(stubItems));
       effects.loadExpenseItems$.subscribe(result => {
         expect(result).toEqual(reducers.loadExpenseItemsSuccessful({ payload: stubItems}));
+        done();
       });
     });
 
-    it('should get expense item from ExpensesService on loadExpenseItemById action', () => {
+    it('should get expense item from ExpensesService on loadExpenseItemById action', (done: DoneFn) => {
       const id = '727212a0-4d73-4615-bd23-d7df6f562491';
       const stubItem = {
         id,
@@ -127,22 +136,25 @@ describe('ExpensesEffects', () => {
       expensesServiceSpy.get.and.returnValue(of(stubItem));
       effects.loadExpenseItemById$.subscribe(result => {
         expect(result).toEqual(reducers.loadExpenseItemByIdSuccessful({ payload: stubItem}));
+        done();
       });
     });
 
-    it('should update item from ExpensesService on updateExpenseItem action', () => {
-      const updateItem = { comment: 'to update' };
-      const expectedUpdate: ExpenseItem = Object.assign(new ExpenseItem(), expenseItemStub, updateItem);
+    it('should update item from ExpensesService on updateExpenseItem action', (done: DoneFn) => {
+      const updateItem = { comment: 'to update', originalAmount: { amount: 4 } };
+      const expectedUpdate = Object.assign(expenseItemStub, updateItem, { convertedAmount: { amount: 2 }});
       actions = new ReplaySubject(1);
       actions.next(reducers.updateExpenseItem({ payload: updateItem }));
+      expensesServiceSpy.convertedAmount.and.returnValue(of(expectedUpdate));
       expensesServiceSpy.put.and.returnValue(of(expectedUpdate));
       effects.updateExpenseItemById$.subscribe(result => {
-        expect(expensesServiceSpy.put).toHaveBeenCalledWith(updateItem, expenseItemStub.id);
+        expect(expensesServiceSpy.put).toHaveBeenCalledWith(expectedUpdate, expenseItemStub.id);
         expect(result).toEqual(reducers.updateExpenseItemSuccessful({ payload: expectedUpdate}));
+        done();
       });
     });
 
-    it('should delete expense item from ExpensesService on deleteExpenseItem action', () => {
+    it('should delete expense item from ExpensesService on deleteExpenseItem action', (done: DoneFn) => {
       const id = '727212a0-4d73-4615-bd23-d7df6f562491';
       actions = new ReplaySubject(1);
       actions.next(reducers.deleteExpenseItem({ id }));
@@ -150,6 +162,7 @@ describe('ExpensesEffects', () => {
       effects.deleteExpenseItem$.subscribe(result => {
         expect(expensesServiceSpy.delete).toHaveBeenCalledWith(id);
         expect(result).toEqual(reducers.deleteExpenseItemSuccessful({ id }));
+        done();
       });
     });
   });
