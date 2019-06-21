@@ -11,20 +11,22 @@ router.get('', (req, res) => {
 
 router.post('', (req, res) => {
   const newItem = _.assignIn({}, req.body, { lastModifiedAt: new Date(), createdAt: new Date(), id: id++ + '' });
-  expenseItems.push(newItem);
+  expenseItems.items.push(newItem);
+  expenseItems.count += 1;
   console.log(newItem);
   res.json(newItem);
 });
 
 router.put('/:id', (req, res) => {
-  const oldItem = _.find(expenseItems, { id: req.params.id });
+  const oldItem = _.find(expenseItems.items, { id: req.params.id });
   const newItem = _.assignIn(oldItem, req.body, { lastModifiedAt: new Date() });
   console.log(newItem);
   res.json(newItem);
 });
 
 router.delete('/:id', (req, res) => {
-  _.remove(expenseItems, item => item.id === req.params.id);
+  _.remove(expenseItems.items, item => item.id === req.params.id);
+  expenseItems.count -= 1;
   res.sendStatus(204);
 });
 

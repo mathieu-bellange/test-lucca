@@ -12,7 +12,7 @@ const expensesReducer = createReducer(
       ids: [],
       entities: {}
     };
-    action.payload.forEach(val => {
+    action.payload.items.forEach(val => {
       const expenseItem: ExpenseItem = new ExpenseItem(val);
       newState.ids.push(expenseItem.id);
       newState.entities[expenseItem.id] = expenseItem;

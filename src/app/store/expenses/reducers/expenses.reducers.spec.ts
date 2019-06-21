@@ -25,7 +25,7 @@ describe('Expenses reducer', () => {
       }
     };
     const expectedState: State = { ids: [stubItem.id], entities: { [stubItem.id]: new ExpenseItem(stubItem) }};
-    const action = actions.loadExpenseItemsSuccessful({ payload: [stubItem] });
+    const action = actions.loadExpenseItemsSuccessful({ payload: { items: [stubItem], count: 1 } });
     const state = reducer(initialState, action);
     expect(state).toEqual(expectedState);
   });

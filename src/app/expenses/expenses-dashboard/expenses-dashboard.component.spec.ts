@@ -70,7 +70,7 @@ describe('ExpensesDashboardComponent', () => {
       }
     };
     const items = [item];
-    const action = fromExpenses.loadExpenseItemsSuccessful({ payload: items});
+    const action = fromExpenses.loadExpenseItemsSuccessful({ payload: { items, count: 1}});
     store.dispatch(action);
     component.dataSource$.subscribe(data => {
       expect(data.length).toBe(items.length);

@@ -11,7 +11,7 @@ export const loadExpenseItems = createAction(
  */
 export const loadExpenseItemsSuccessful = createAction(
   '[Expenses API] Expense Items Loaded Success',
-  props<{ payload: any[] }>()
+  props<{ payload: { items: any[], count: number } }>()
 );
 /**
  * action to trigger Expense Item load by id

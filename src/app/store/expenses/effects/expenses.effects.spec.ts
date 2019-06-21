@@ -109,12 +109,12 @@ describe('ExpensesEffects', () => {
           currency: Currency.GBP
         }
       };
-      const stubItems = [stubItem];
+      const stubItems = { items: [stubItem], count: 1};
       actions = new ReplaySubject(1);
       actions.next(reducers.loadExpenseItems());
       expensesServiceSpy.getAll.and.returnValue(of(stubItems));
       effects.loadExpenseItems$.subscribe(result => {
-        expect(result).toEqual(reducers.loadExpenseItemsSuccessful({ payload: stubItems}));
+        expect(result).toEqual(reducers.loadExpenseItemsSuccessful({ payload: stubItems }));
         done();
       });
     });
