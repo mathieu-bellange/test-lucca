@@ -1,11 +1,19 @@
 export interface State {
-  fromUSD: { toEUR: number };
-  fromGBP: { toEUR: number };
-  fromCHF: { toEUR: number };
+  toEUR: CurrencyRateState;
+}
+
+export interface CurrencyRateState {
+  fromUSD: number,
+  fromGBP: number,
+  fromCHF: number,
+  fromEUR: number
 }
 
 export const initialState: State = {
-  fromUSD: { toEUR: 1.13 },
-  fromGBP: { toEUR: 0.89 },
-  fromCHF: { toEUR: 1.11 }
+  toEUR: {
+    fromUSD: 0.88,
+    fromGBP: 1.12,
+    fromCHF: 0.9,
+    fromEUR: 1
+  }
 };
