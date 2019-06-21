@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+
+import { AppState } from '../../index';
+import { ExpenseItem, Currency } from '../../model';
+import * as fromCurrency from '../../currency';
 
 @Injectable()
 export class ExpensesService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private store: Store<AppState>) { }
 
   /**
    * Request all ExpenseItems
@@ -51,5 +56,23 @@ export class ExpensesService {
    */
   post(body: any) {
     return this.http.post('/api/expenseItems', body);
+  }
+
+  /**
+   * calcul convertedAmount of an expenseItem
+   * Use EUR for converted amount by default
+   * @param  expenseItem the expense item to update
+   * @return             Expense item with converted amount updated
+   */
+  convertedAmount(expenseItem: ExpenseItem) {
+    return this.store.pipe(
+      select(fromCurrency.selectRateToEuro, { currency: expenseItem.originalAmount.currency }),
+      map(rate => Object.assign({}, expenseItem, {
+        convertedAmount: {
+          amount: rate * expenseItem.originalAmount.amount,
+          currency: Currency.EUR
+        }
+      }))
+    );
   }
 }

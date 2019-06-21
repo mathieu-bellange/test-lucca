@@ -7,6 +7,7 @@ import { map, mergeMap, filter, catchError, withLatestFrom } from 'rxjs/operator
 import { AppState } from '../../index';
 import * as reducers from '../reducers';
 import { ExpensesService } from './expenses.service';
+import { ExpenseItem } from '../../model';
 
 /**
  * Store effects for Expenses feature
@@ -51,8 +52,13 @@ export class ExpensesEffects {
       withLatestFrom(this.store.pipe(select(reducers.selectExpenseItemById))),
       filter(action => !!action[1]),
       map(action => ({ id: action[1].id, body: action[0].payload })),
-      mergeMap(buildReq => this.expensesService.put(buildReq.body, buildReq.id)
-        .pipe(
+      mergeMap((buildReq: { id:string, body: ExpenseItem}) =>
+        this.expensesService.convertedAmount(buildReq.body).pipe(
+          map(expenseItem => ({ ...buildReq, body: expenseItem }))
+        )
+      ),
+      mergeMap(buildReq =>
+        this.expensesService.put(buildReq.body, buildReq.id).pipe(
           map(expenseItems => ({ type: reducers.updateExpenseItemSuccessful.type, payload: expenseItems })),
           catchError(() => EMPTY)
         ))
@@ -67,9 +73,12 @@ export class ExpensesEffects {
         ofType(reducers.updateExpenseItem),
         withLatestFrom(this.store.pipe(select(reducers.selectExpenseItemById))),
         filter(action => !action[1]),
-        map(action => ({ body: action[0].payload })),
-        mergeMap(buildReq => this.expensesService.post(buildReq.body)
-          .pipe(
+        map((action: [{ payload: ExpenseItem}, ExpenseItem]) => ({ body: action[0].payload })),
+        mergeMap((buildReq: { body: ExpenseItem}) =>
+          this.expensesService.convertedAmount(buildReq.body)
+        ),
+        mergeMap(body =>
+          this.expensesService.post(body).pipe(
             map(expenseItems => ({ type: reducers.updateExpenseItemSuccessful.type, payload: expenseItems })),
             catchError(() => EMPTY)
           ))

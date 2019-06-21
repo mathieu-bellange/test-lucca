@@ -111,6 +111,10 @@ describe('Expenses reducer', () => {
         originalAmount: {
           amount: 17.0,
           currency: Currency.GBP
+        },
+        convertedAmount: {
+          amount: 17,
+          currency: Currency.EUR
         }
       });
       const initialState: State = { ids: [], entities: { }};

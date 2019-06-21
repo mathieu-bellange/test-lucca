@@ -12,6 +12,7 @@ export class ExpenseItem {
   nature: string;
   comment: string;
   originalAmount: Amount = new Amount();
+  convertedAmount?: Amount = new Amount();
 
   constructor(payload?: any) {
     if (!payload) return;
@@ -20,5 +21,6 @@ export class ExpenseItem {
     this.nature = payload.nature;
     this.comment = payload.comment;
     this.originalAmount = new Amount(payload.originalAmount);
+    this.convertedAmount = new Amount(payload.convertedAmount);
   }
 }

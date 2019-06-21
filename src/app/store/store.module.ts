@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
 import { ExpensesModule } from './expenses/expenses.module';
+import { CurrencyModule } from './currency/currency.module';
 
 /**
  * Root NgModule of the Store
@@ -18,7 +19,8 @@ import { ExpensesModule } from './expenses/expenses.module';
     }),
     StoreRouterConnectingModule.forRoot(),
     EffectsModule.forRoot([]),
-    ExpensesModule
+    ExpensesModule,
+    CurrencyModule
   ]
 })
 export class AppStoreModule { }
