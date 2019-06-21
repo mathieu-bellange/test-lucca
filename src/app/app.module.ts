@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppStoreModule } from './store/store.module';
 import { ExpensesModule } from './expenses/expenses.module';
+import { httpInterceptorProviders } from './http-interceptors';
+import { AuthService } from './authentication';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,10 @@ import { ExpensesModule } from './expenses/expenses.module';
     StoreRouterConnectingModule.forRoot(),
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    httpInterceptorProviders,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

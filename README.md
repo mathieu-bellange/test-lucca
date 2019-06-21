@@ -4,9 +4,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
 Run `npm run proxy` for a backend dev server at `http://localhost:4201/`. The config is in `proxy/`.
+
+Run `npm run start:proxy` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. Use proxy backend server for `/api` request
+
+Run `npm run start` for a dev server same a `strat:proxy` but with lucca api for `/api` request
 
 ## Code scaffolding
 
