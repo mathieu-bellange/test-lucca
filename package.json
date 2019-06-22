@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --configuration=fr --proxy-config api-lucca.config.json",
-    "start:proxy": "ng serve --configuration=fr --proxy-config proxy.config.json",
+    "start:proxy": "ng serve --configuration=fr",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
