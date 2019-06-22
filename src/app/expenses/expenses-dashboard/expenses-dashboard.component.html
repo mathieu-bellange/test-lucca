@@ -11,19 +11,19 @@
 
       <!-- PurchasedOn Column -->
       <ng-container matColumnDef="purchasedOn">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <th mat-header-cell *matHeaderCellDef i18n="@@dashboardDate"> Date </th>
         <td mat-cell *matCellDef="let element"> {{element.purchasedOn | date:'longDate'}} </td>
       </ng-container>
 
       <!-- Nature Column -->
       <ng-container matColumnDef="nature">
-        <th mat-header-cell *matHeaderCellDef> Nature </th>
+        <th mat-header-cell *matHeaderCellDef i18n="@@dashboardNature"> Nature </th>
         <td mat-cell *matCellDef="let element"> {{element.nature}} </td>
       </ng-container>
 
       <!-- Amount Column -->
       <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef> Montant </th>
+        <th mat-header-cell *matHeaderCellDef i18n="@@dashboardAmount"> Amount </th>
         <td mat-cell *matCellDef="let element"> {{element.originalAmount.amount | currency:element.originalAmount.currency }} </td>
       </ng-container>
 

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="appHeader" datatype="html">
+        <source>
+          Welcome to
+          <x id="INTERPOLATION" equiv-text="{{ title }}"/>!
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dialogHeader" datatype="html">
+        <source>Delete confirmation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-dialog/expense-dialog.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dialogContent" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ data.expenseItemToDelete.nature }}"/>
+          on
+          <x id="INTERPOLATION_1" equiv-text="{{ data.expenseItemToDelete.purchasedOn | date:&apos;longDate&apos; }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-dialog/expense-dialog.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dialogCancel" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-dialog/expense-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dialogConfirm" datatype="html">
+        <source>Confirm</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-dialog/expense-dialog.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboardDate" datatype="html">
+        <source>
+          Date
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expenses-dashboard/expenses-dashboard.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboardNature" datatype="html">
+        <source>
+          Nature
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expenses-dashboard/expenses-dashboard.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboardAmount" datatype="html">
+        <source>
+          Amount
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expenses-dashboard/expenses-dashboard.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detailBack" datatype="html">
+        <source>Back</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detailDatePlaceholder" datatype="html">
+        <source>Choose a date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detailNaturePlaceholder" datatype="html">
+        <source>Nature</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detailNatureError" datatype="html">
+        <source>Nature is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detailCurrencyLabel" datatype="html">
+        <source>Currency</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detailAmountPlaceholder" datatype="html">
+        <source>Amount</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detailAmountError" datatype="html">
+        <source>Amount is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="96b52365102f91b717535e3111d97991a1c8169d" datatype="html">
+        <source>Commentary</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <note priority="1" from="description">detailCommentPlaceholder</note>
+      </trans-unit>
+      <trans-unit id="detailSubmit" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detailDelete" datatype="html">
+        <source>Delete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/expenses/expense-detail/expense-detail.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

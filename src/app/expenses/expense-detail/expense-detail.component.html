@@ -1,20 +1,23 @@
 <div class="expenses-detail">
-  <button type="button" class="back-button" (click)="onBack()" mat-button>Back</button>
+  <button type="button" class="back-button" (click)="onBack()" mat-button i18n="@@detailBack">Back</button>
   <form [formGroup]="expenseDetailForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
-      <input matInput class="date-input" formControlName="purchasedOn" [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date" (click)="picker.open()" readonly>
+      <input matInput class="date-input" formControlName="purchasedOn"
+        [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date" i18n-placeholder="@@detailDatePlaceholder"
+        (click)="picker.open()" readonly>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput maxlength="120" placeholder="Nature" formControlName="nature" required>
-      <mat-error *ngIf="f.nature.errors?.required">Nature is required</mat-error>
+      <input matInput maxlength="120" placeholder="Nature" i18n-placeholder="@@detailNaturePlaceholder"
+        formControlName="nature" required>
+      <mat-error *ngIf="f.nature.errors?.required" i18n="@@detailNatureError">Nature is required</mat-error>
     </mat-form-field>
 
     <div formGroupName="originalAmount" class="amount-container">
       <mat-form-field class="currency">
-        <mat-label>Currency</mat-label>
+        <mat-label i18n="@@detailCurrencyLabel">Currency</mat-label>
         <mat-select formControlName="currency">
           <mat-option *ngFor="let currency of currencies | enumToArray" [value]="currency.key">
             {{currency.value}}
@@ -23,17 +26,19 @@
       </mat-form-field>
 
       <mat-form-field class="amount">
-        <input matInput type="number" placeholder="Amount" formControlName="amount" required>
-        <mat-error *ngIf="f.originalAmount.controls.amount.invalid">Amount is required</mat-error>
+        <input matInput type="number" placeholder="Amount" i18n-placeholder="@@detailAmountPlaceholder"
+          formControlName="amount" required>
+        <mat-error *ngIf="f.originalAmount.get('amount').invalid" i18n="@@detailAmountError">Amount is required</mat-error>
       </mat-form-field>
     </div>
 
     <mat-form-field>
-      <textarea matInput placeholder="Commentary" maxlength="600" formControlName="comment"></textarea>
+      <textarea matInput placeholder="Commentary" i18n-placeholder="detailCommentPlaceholder"
+        maxlength="600" formControlName="comment"></textarea>
     </mat-form-field>
     <div class="form-buttons">
-      <button type="submit" [disabled]="!expenseDetailForm.valid || !expenseDetailForm.dirty" mat-raised-button color="primary">Sauver</button>
-      <button type="button" *ngIf="newItem$ | async" (click)="deleteConfirmDialog()" mat-raised-button color="primary">Supprimer</button>
+      <button type="submit" [disabled]="!expenseDetailForm.valid || !expenseDetailForm.dirty" mat-raised-button color="primary" i18n="@@detailSubmit">Save</button>
+      <button type="button" *ngIf="newItem$ | async" (click)="deleteConfirmDialog()" mat-raised-button color="primary" i18n="@@detailDelete">Delete</button>
     </div>
   </form>
 </div>

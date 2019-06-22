@@ -4,8 +4,8 @@
   "main": "src/main.ts",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config api-lucca.config.json",
-    "start:proxy": "ng serve --proxy-config proxy.config.json",
+    "start": "ng serve --configuration=fr --proxy-config api-lucca.config.json",
+    "start:proxy": "ng serve --configuration=fr --proxy-config proxy.config.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
