@@ -4,13 +4,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `npm run proxy` for a backend dev server at `http://localhost:4201/`. The config is in `proxy/`.
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. Use lucca api for `/api` request. Locale fr with `--configuration=fr`, remove to build with default locale en.
 
-Run `npm run start:proxy` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. Use proxy backend server for `/api` request. Locale fr with `--configuration=fr`, remove to build with default locale en
+Run `npm run start:prod` for serving the project in production ready with lucca api for `/api` request.
 
-Run `npm run start` for a dev server same as `strat:proxy` but with lucca api for `/api` request
+Run `npm run proxy` for a backend dev server at `http://localhost:4201/`. The config is in `proxy/`. Then
+run `npm run start:proxy` for a dev server using the proxy backend server for `/api` request.
 
-Run `npm run start:prod` for serving the project in production ready with lucca api for `/api` request
 
 ## Code scaffolding
 
@@ -24,11 +24,11 @@ Run `npm run buld:prod` to build the project in prod ready and `npm run build:pr
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 Configure the chrome version in `pree2e` see [issue](https://github.com/angular/angular-cli/issues/4640)
 
 ## Further help
