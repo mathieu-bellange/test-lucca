@@ -52,7 +52,7 @@ export class ExpensesEffects {
       withLatestFrom(this.store.pipe(select(reducers.selectExpenseItemById))),
       filter(action => !!action[1]),
       map(action => ({ id: action[1].id, body: action[0].payload })),
-      mergeMap((buildReq: { id:string, body: ExpenseItem}) =>
+      mergeMap((buildReq: { id: string, body: ExpenseItem }) =>
         this.expensesService.convertedAmount(buildReq.body).pipe(
           map(expenseItem => ({ ...buildReq, body: expenseItem }))
         )

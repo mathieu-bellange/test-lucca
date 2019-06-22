@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
-import {MediaObserver} from '@angular/flex-layout';
-import { Observable } from 'rxjs';
+import { MediaObserver, MediaChange} from '@angular/flex-layout';
+import { Observable, Subscription } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
+import { find } from 'lodash';
 
 import { fromExpenses, AppState, ExpenseItem } from '../../store';
 import { slideInOutAnimation } from '../expenses.animations';
@@ -21,7 +22,7 @@ import { ExpenseDialogComponent } from '../expense-dialog';
   styleUrls: ['./expenses-dashboard.component.styl'],
   animations: [slideInOutAnimation]
 })
-export class ExpensesDashboardComponent implements OnInit {
+export class ExpensesDashboardComponent implements OnInit, OnDestroy {
   displayedColumns: string[];
   displayedColumnsOnXs: string[] = ['purchasedOn', 'nature', 'amount'];
   displayedColumnsOnOthers: string[] = ['addExpenseItem', 'purchasedOn', 'nature', 'amount', 'delete'];
@@ -29,8 +30,16 @@ export class ExpensesDashboardComponent implements OnInit {
     select(fromExpenses.selectExpenseItems),
     map(entity => Object.values(entity))
   );
-  xsMedia$ = this.mediaObserver.media$.pipe(filter(mediaChange => mediaChange.mqAlias === 'xs' ));
-  notXsMedia$ = this.mediaObserver.media$.pipe(filter(mediaChange => mediaChange.mqAlias !== 'xs' ));
+  isXsMedia = (mediaChanges: MediaChange[]) =>
+    find(mediaChanges, (value: MediaChange) => value.mqAlias === 'xs');
+  xsMedia$ = this.mediaObserver.asObservable().pipe(
+    filter(mediaChanges => this.isXsMedia(mediaChanges))
+  );
+  xsMediaSub: Subscription;
+  notXsMediaSub: Subscription;
+  notXsMedia$ = this.mediaObserver.asObservable().pipe(
+    filter(mediaChanges => !this.isXsMedia(mediaChanges))
+  );
 
   constructor(
     private store: Store<AppState>, private router: Router, private route: ActivatedRoute,
@@ -38,8 +47,13 @@ export class ExpensesDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(fromExpenses.loadExpenseItems());
-    this.xsMedia$.subscribe(() => this.displayedColumns = this.displayedColumnsOnXs);
-    this.notXsMedia$.subscribe(() => this.displayedColumns = this.displayedColumnsOnOthers);
+    this.xsMediaSub = this.xsMedia$.subscribe(() => this.displayedColumns = this.displayedColumnsOnXs);
+    this.notXsMediaSub = this.notXsMedia$.subscribe(() => this.displayedColumns = this.displayedColumnsOnOthers);
+  }
+
+  ngOnDestroy() {
+    if (this.xsMediaSub) this.xsMediaSub.unsubscribe();
+    if (this.notXsMediaSub) this.notXsMediaSub.unsubscribe();
   }
 
   onRowSelected(expenseItem: ExpenseItem) {

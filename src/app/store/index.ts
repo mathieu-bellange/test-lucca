@@ -6,7 +6,7 @@ import * as fromCurrency from './currency';
 export interface AppState {
   router: RouterReducerState<any>;
   expenses: fromExpenses.State;
-  currency: fromCurrency.State
+  currency: fromCurrency.State;
 }
 
 export { fromExpenses, fromCurrency };

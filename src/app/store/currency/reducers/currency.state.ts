@@ -3,10 +3,10 @@ export interface State {
 }
 
 export interface CurrencyRateState {
-  fromUSD: number,
-  fromGBP: number,
-  fromCHF: number,
-  fromEUR: number
+  fromUSD: number;
+  fromGBP: number;
+  fromCHF: number;
+  fromEUR: number;
 }
 
 export const initialState: State = {

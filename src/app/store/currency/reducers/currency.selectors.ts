@@ -4,7 +4,7 @@ import { State, CurrencyRateState } from './currency.state';
 import { AppState } from '../../index';
 import { Currency } from '../../model';
 
-export const selectCurrency = createFeatureSelector<AppState, State>('currency')
+export const selectCurrency = createFeatureSelector<AppState, State>('currency');
 
 export const selectToEuro = createSelector(
   selectCurrency,
